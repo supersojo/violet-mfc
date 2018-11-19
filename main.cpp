@@ -1,15 +1,34 @@
 #include <iostream>
 #include "id.h"
-//#include "iedge.h"
-#include "inode.h"
-
+#include "abstractnode.h"
+#include "vcontentinshape.h"
 #pragma comment(lib,"ole32.lib")
+
+class Foo{
+    public:
+        Foo() {
+            i = 1;
+        }
+        int i;
+        void foo() {
+            std::cout<<"foo()"<<std::endl;
+        }
+};
+class Bar {
+    public:
+    Bar() {
+        m_foo = new Foo();
+    }
+    Foo& get() {
+        return (*m_foo);
+    }
+    private:
+    Foo* m_foo;
+    
+};
+
 int main() {
-    violet::abstract::Id id;
-    violet::abstract::Id id1;
-    id.SetValue(id1.GetValue());
-    std::cout<<id.GetValue()<<std::endl;
-    std::cout<<id1.GetValue()<<std::endl;
-    std::cout<<id.Equal(id1)<<std::endl;
+    
+    Bar bar;
     return 0;
 }

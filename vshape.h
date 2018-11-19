@@ -1,0 +1,18 @@
+#ifndef VSHAPE_H
+#define VSHAPE_H
+#include "vrect.h"
+#include "vpoint.h"
+
+namespace violet {
+    class VShape {
+        public:
+            virtual bool Contains(VPoint& point) {
+                return false;
+            }
+            virtual VRect GetBounds() {
+                return VRect();
+            }
+    };
+}
+
+#endif

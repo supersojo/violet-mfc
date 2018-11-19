@@ -12,7 +12,7 @@ namespace violet {
 }
 namespace violet {
     namespace abstract {
-    class INode;
+        class INode;
     }
 }
 
