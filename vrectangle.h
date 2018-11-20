@@ -59,6 +59,7 @@ namespace violet {
             }
             virtual void Fill(VContext& context,VPoint& location,VColor& color) {
                 std::cout<<"Fill rectangle"<< std::endl;
+                context.FillRectangle(location,VPoint(m_width,m_height),color);
             }
         private:
             double m_x;

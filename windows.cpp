@@ -67,6 +67,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     case   WM_PAINT: {
         violet::NoteNode node;
         violet::NoteNode node1;
+        violet::NoteNode node2;
         violet::VContext context;
         hdc = BeginPaint (hwnd, &ps) ;
         Gdiplus::Graphics graphics(hdc);
@@ -75,6 +76,8 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         node.Draw(context);
         node1.Translate(20,40);
         node1.Draw(context);
+        node2.Translate(30,30);
+        node2.Draw(context);
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
         //graphics.DrawLine(&red, 10, 10, 100, 100);
         //TextOut(hdc,0,0,"Hello",strlen("Hello"));

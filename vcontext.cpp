@@ -21,6 +21,12 @@ void VContext::DrawLine(VPoint& start,VPoint& end,VColor& color) {
     Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
     m_graphics->DrawLine(&red,start.GetX(),start.GetY(),end.GetX(),end.GetY());
 }
+void VContext::FillRectangle(VPoint& location,VPoint& size,VColor& color) {
+    m_graphics->FillRectangle(&Gdiplus::SolidBrush(Gdiplus::Color::Green),
+    location.GetX(),location.GetY(),
+    size.GetX(),size.GetY()
+    );
+}
 void VContext::DrawString(std::string& str,VPoint& location, VColor&color) {
     Gdiplus::FontFamily fontfamily(L"宋体");
 	Gdiplus::Font font(&fontfamily,60,Gdiplus::FontStyleRegular,Gdiplus::UnitPixel);

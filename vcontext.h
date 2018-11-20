@@ -25,6 +25,7 @@ namespace violet {
             }
             void DrawLine(VPoint& start,VPoint& end,VColor& color);
             void DrawString(std::string& str,VPoint& location, VColor&color);
+            void FillRectangle(VPoint& location,VPoint& size,VColor& color);
             ~VContext();
         private:
             ULONG_PTR gdiplusToken;
