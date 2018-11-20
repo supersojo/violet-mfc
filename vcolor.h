@@ -3,6 +3,14 @@
 
 namespace violet {
     class VColor {
+        public:
+            VColor() {
+            }
+            VColor(const VColor& color) {
+            }
+            VColor& operator=(const VColor& color) {
+                return *this;
+            }
     };
 }
 

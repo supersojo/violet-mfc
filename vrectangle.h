@@ -1,6 +1,6 @@
 #ifndef VRECTANGLE_H
 #define VRECTANGLE_H
-
+#include <iostream>
 #include "vshape.h"
 
 namespace violet {
@@ -47,6 +47,18 @@ namespace violet {
             }
             virtual VRect GetBounds() {
                 return VRect(m_x,m_y,m_width,m_height);
+            }
+            virtual void Draw(VContext& context,VPoint& location,VColor& color) {
+                context.DrawLine(location,location+VPoint(m_width,0),color);
+                context.DrawLine(location,location+VPoint(0,m_height),color);
+                context.DrawLine(location+VPoint(m_width,0),
+                                 location+VPoint(m_width,0)+VPoint(0,m_height),color);
+                context.DrawLine(location+VPoint(0,m_height),
+                                 location+VPoint(0,m_height)+VPoint(m_width,0),color);
+                std::cout<<"Draw rectangle"<< std::endl;
+            }
+            virtual void Fill(VContext& context,VPoint& location,VColor& color) {
+                std::cout<<"Fill rectangle"<< std::endl;
             }
         private:
             double m_x;

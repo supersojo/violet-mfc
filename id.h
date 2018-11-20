@@ -3,6 +3,7 @@
 
 #include <string>
 #include "uuidgen.h"
+#include <iostream>
 
 // violet::abstract::Id
 
@@ -17,7 +18,7 @@ namespace violet {
                     UUIDGen gen;
                     m_value = gen.Gen();
                 }
-                std::string GetValue() {
+                std::string GetValue() const{
                     return m_value;
                 }
                 void SetValue(std::string v) {
@@ -30,6 +31,10 @@ namespace violet {
                 }
                 bool Equal(Id& obj) {
                     return (m_value.compare(obj.GetValue())) == 0;
+                }
+                friend std::ostream& operator<<(std::ostream& out,const Id& id) {
+                        out<<id.GetValue();
+                        return out;
                 }
             private:
                 std::string  m_value;

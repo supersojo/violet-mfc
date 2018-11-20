@@ -4,6 +4,8 @@
 namespace violet {
     class VContentEmpty : public VContent{
         public:
+            virtual ~VContentEmpty() {
+            }
             virtual void Draw(VContext& context) {
             }
             void SetWidth(double w) {

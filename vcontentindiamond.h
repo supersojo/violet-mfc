@@ -1,30 +1,32 @@
-#ifndef VCONTENTINRECTANGLE_H
-#define VCONTENTINRECTANGLE_H
+#ifndef VCONTENTINDIAMOND_H
+#define VCONTENTINDIAMOND_H
 #include "vcontentinshape.h"
-#include "vrectangle.h"
+#include "vdiamond.h"
 namespace violet {
-    class VContentInRectangle : public VContentInShape {
+
+    class VContentInDiamond : public VContentInShape {
         public:
-            VContentInRectangle(VContent& content) {
+            VContentInDiamond(VContent& content) {
                 SetContent(content);
             }
-            virtual ~VContentInRectangle() {
+            virtual ~VContentInDiamond() {
             }
             virtual void RefreshUp() {
                 if (&GetShape()==nullptr)
-                    SetShape(CreateRectangle());
+                    SetShape(CreateDiamond());
                 VContentInShape::RefreshUp();
             }
             virtual void RefreshDown() {
                 if (&GetShape()==nullptr)
-                    SetShape(CreateRectangle());
+                    SetShape(CreateDiamond());
                 VContentInShape::RefreshDown();
             }
         private:
-            VShape& CreateRectangle() {
-                return *(new VRectangle(0,0,GetContent().GetWidth(),GetContent().GetHeight()));
+            VShape& CreateDiamond() {
+                return *(new VDiamond(GetContent().GetWidth(),GetContent().GetHeight()));
             }
     };
+
 }
 
 #endif

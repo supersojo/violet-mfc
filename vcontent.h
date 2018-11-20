@@ -2,12 +2,14 @@
 #define VCONTENT_H
 #include <list>
 #include "vrect.h"
-
+#include "vcontext.h"
 
 namespace violet {
     class VContent {
         public:
-            bool Contains(VPoint& point) {
+            virtual ~VContent() {
+            }
+            virtual bool Contains(VPoint& point) {
                 VRect rect = GetBounds();
                 
                 if(((point.GetX() > rect.GetLocation().GetX()) &&
@@ -21,6 +23,10 @@ namespace violet {
             virtual void Draw(VContext& context) {
             }
             virtual void Draw(VContext& context,VPoint& offset) {
+                VPoint& oldLocation = context.GetLocation();
+                context.SetLocation(oldLocation+offset);
+                Draw(context);
+                context.SetLocation(oldLocation);
             }
             double GetX() {
                 return 0;

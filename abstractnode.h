@@ -1,7 +1,9 @@
 #ifndef ABSTRACTNODE_H
 #define ABSTRACTNODE_H
 #include <list>
+#include <iostream>
 #include "inode.h"
+#include "icolorablenode.h"
 #include "vcontent.h"
 #include "vcontentbackground.h"
 #include "vcontentborder.h"
@@ -15,20 +17,28 @@ namespace violet {
     }
 }
 /*
- +------------------+<border>
- | +------------+   |
- | |<background |   |
- | | content>   |   |
- | +------------+   |
- +------------------+
+for a node:
+AbstractNode::m_content----+
+                           |
+                           V
++--------------------------------------------+
+| +------------------------------+           |<background
+| |   +----------------+         |<border    | content>
+| |   | +------------+ |<shape   | content>  |
+| |   | |<empty      | | content>|           |
+| |   | | content>   | |         |           |
+| |   | +------------+ |         |           |
+| |   +----------------+         |           |
+| +------------------------------+           |
++--------------------------------------------+
 */
 namespace violet {
     namespace abstract {
-        class AbstractNode : public INode {
+        class AbstractNode : public INode, public IColorableNode {
             public:
                 AbstractNode();
                 AbstractNode(const AbstractNode& node);
-                ~AbstractNode();
+                virtual ~AbstractNode();
                 /* IIdentifiable interface */
                 virtual Id& GetId();
                 virtual void SetId(Id& id);
@@ -60,6 +70,13 @@ namespace violet {
                 virtual void SetZ(int z);
                 virtual std::string GetToolTip();
                 virtual INode& Clone();
+                /* IColorableNode interface */
+                virtual void SetBackgroundColor(VColor& bgColor);
+                virtual VColor& GetBackgroundColor();
+                virtual void SetBorderColor(VColor& borderColor);
+                virtual VColor& GetBorderColor();
+                virtual void SetTextColor(VColor& textColor);
+                virtual VColor& GetTextColor();
                 /* others */
                 virtual void onChildChangeLocation(INode& child);
                 
@@ -68,7 +85,7 @@ namespace violet {
                 virtual void AfterReconstruction() {
                     GetContent().Refresh();
                 }
-                void CreateContentStructure();
+                virtual void CreateContentStructure();
                 void SetBorder(VContentBorder& border) {
                     m_border = &border;
                 }
@@ -77,7 +94,6 @@ namespace violet {
                         GetContent();
                     return *m_border;
                 }
-                
                 VContent& GetContent() {
                     if (m_content==nullptr)
                         Reconstruction();
@@ -95,9 +111,9 @@ namespace violet {
                     return *m_background;
                 }
             private:
-                Id* m_id;
+                Id m_id;
                 int m_revision;
-                VPoint* m_location;
+                VPoint m_location;
                 std::list<INode*> m_children;
                 INode* m_parent;
                 IGraph* m_graph;

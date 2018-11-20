@@ -1,6 +1,6 @@
 #ifndef VPOINT_H
 #define VPOINT_H
-
+#include <iostream>
 namespace violet {
     /*
     for a point
@@ -26,6 +26,18 @@ namespace violet {
             }
             void SetY(int y) {
                 m_y = y;
+            }
+            VPoint& operator=(const VPoint& point) {
+                m_x = point.m_x;
+                m_y = point.m_y;
+                return *this;
+            }
+            VPoint operator+(const VPoint& point) {
+                return VPoint(m_x+point.m_x,m_y+point.m_y);
+            }
+            friend std::ostream& operator<<(std::ostream& out,const VPoint& point) {
+                out<<"("<<point.m_x<<","<<point.m_y<<")";
+                return out;
             }
         private:
             int m_x;

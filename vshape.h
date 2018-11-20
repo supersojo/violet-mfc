@@ -12,6 +12,10 @@ namespace violet {
             virtual VRect GetBounds() {
                 return VRect();
             }
+            virtual void Draw(VContext& context,VPoint& location,VColor& color) {
+            }
+            virtual void Fill(VContext& context,VPoint& location,VColor& color) {
+            }
     };
 }
 

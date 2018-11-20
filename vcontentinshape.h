@@ -9,7 +9,13 @@
 namespace violet {
     class VContentInShape : public VContent {
         public:
-            void Draw(VContext& context) {
+            VContentInShape() {
+                m_content = nullptr;
+                m_shape = nullptr;
+            }
+            virtual ~VContentInShape() {
+            }
+            virtual void Draw(VContext& context) {
                 m_content->Draw(context,GetShapeOffset());
             }
             VPoint GetShapeOffset() {
@@ -20,10 +26,10 @@ namespace violet {
                               (shapeBounds.GetSize().GetY()-m_content->GetHeight())
                               );
             }
-            bool Contains(VPoint& point) {
+            virtual bool Contains(VPoint& point) {
                 return GetShape().Contains(point);
             }
-            VShape& GetShape() {
+            virtual VShape& GetShape() {
                 return *m_shape;
             }
             void SetShape(VShape& shape) {
@@ -57,7 +63,7 @@ namespace violet {
                 VContent::RefreshDown();
             }
             virtual VRect GetMinimalBounds() {
-                GetShape().GetBounds();
+                return GetShape().GetBounds();
             }
         private:
             VContent* m_content;
