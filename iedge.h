@@ -1,6 +1,6 @@
 #ifndef IEDGE_H
 #define IEDGE_H
-
+#include <list>
 #include "iidentifiable.h"
 
 
@@ -13,6 +13,7 @@ namespace violet {
 namespace violet {
     namespace abstract {
         class INode;
+        class Direction;
     }
 }
 
@@ -36,13 +37,13 @@ namespace violet {
                 virtual VPoint& GetEndLocation() = 0;
                 virtual VPoint& GetEndLocationOnGraph() = 0;
                 virtual void SetTransitionPoints(VPoint transitionPoints[]) = 0;
-                virtual VPoint* GetTransitionPoints() = 0;
+                virtual std::list<VPoint*> GetTransitionPoints() = 0;
                 virtual bool IsTransitionPointsSupported() = 0;
                 virtual void ClearTransitionPoints() = 0;
-                virtual VLine& GetConnectionPoints() = 0;
+                virtual VLine GetConnectionPoints() = 0;
                 virtual bool Contains(VPoint& point) = 0;
-                virtual VRect& GetBounds() = 0;
-                //virtual Direction& GetDirection(INode& node) = 0;
+                virtual VRect GetBounds() = 0;
+                virtual Direction GetDirection(INode& node) = 0;
                 virtual void Draw(VContext& context) = 0;
                 virtual std::string GetToolTip() = 0;
                 virtual IEdge& clone() = 0;
