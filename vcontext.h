@@ -6,6 +6,7 @@ namespace violet {
     class VShape;
     class VColor;
     class VPoint;
+    class VRect;
     /*
     context for draw something
     */
@@ -25,6 +26,7 @@ namespace violet {
             }
             void DrawLine(VPoint& start,VPoint& end,VColor& color);
             void DrawString(std::string& str,VPoint& location, VColor&color);
+            VRect MeasureString(std::string& str);
             void FillRectangle(VPoint& location,VPoint& size,VColor& color);
             ~VContext();
         private:

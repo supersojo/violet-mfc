@@ -1,6 +1,6 @@
 #ifndef VRECT_H
 #define VRECT_H
-
+#include <iostream>
 #include "vpoint.h"
 
 namespace violet {
@@ -44,6 +44,24 @@ namespace violet {
             }
             VPoint& GetSize() {
                 return m_size;
+            }
+            VRect& operator=(const VRect& rect) {
+                SetLocation(((VRect&)rect).GetLocation());
+                SetSize(((VRect&)rect).GetSize());
+                return *this;
+            }
+            VRect operator+(const VRect& rect) {
+                return VRect(m_location.GetX()+((VRect&)rect).GetLocation().GetX(),
+                             m_location.GetY()+((VRect&)rect).GetLocation().GetY(),
+                             m_size.GetX()+((VRect&)rect).GetSize().GetX(),
+                             m_size.GetY()+((VRect&)rect).GetSize().GetY());
+            }
+            friend std::ostream& operator<<(std::ostream& out,const VRect& rect) {
+                out<<"("<<rect.m_location.GetX()<<",";
+                out<<rect.m_location.GetY()<<",";
+                out<<rect.m_size.GetX()<<",";
+                out<<rect.m_size.GetY()<<")";
+                return out;
             }
         private:
             VPoint m_location;

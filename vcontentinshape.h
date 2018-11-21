@@ -14,6 +14,10 @@ namespace violet {
                 m_shape = nullptr;
             }
             virtual ~VContentInShape() {
+                if (m_shape!=nullptr)
+                    delete m_shape;
+                if  (m_content!=nullptr)
+                    delete m_content;
             }
             virtual void Draw(VContext& context) {
                 m_content->Draw(context,GetShapeOffset());

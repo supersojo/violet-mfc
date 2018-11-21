@@ -5,7 +5,7 @@
 #pragma comment(lib,"ole32.lib")
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdiplus.lib")
-
+using namespace Gdiplus;
 LRESULT CALLBACK WndProc (HWND, UINT, WPARAM, LPARAM); //声名消息处理函数(处理windows和接收windows消息)
 //hInstance:系统为窗口分配的实例号,2和3忘了.4是显示方式
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,PSTR szCmdLine, int iCmdShow)
@@ -51,7 +51,36 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,PSTR szCmdLine,
     }
     return msg.wParam ;
 }
+static void ListAllFonts(Graphics& graphics) {
+    SolidBrush solidbrush(Color::Black);
+    FontFamily fontfamily(L"Arial");
+    Font font(&fontfamily,8,FontStyleRegular,UnitPoint);
+     
+    int count=0;
+    int found=0;
+     
+    WCHAR familyName[100];//这里为了简化程序，分配足够大的空间
+    WCHAR *familyList=NULL;
+    FontFamily pFontFamily[500];//同样，分配足够大的空间
+     
 
+    RectF r(0,0,300,200);
+     
+    InstalledFontCollection installedFontCollection;
+    count=installedFontCollection.GetFamilyCount();
+    installedFontCollection.GetFamilies(count,pFontFamily,&found);
+     
+    familyList=new WCHAR[count*sizeof(familyName)];
+    wcscpy(familyList,L"");//先清空familyList，wcscpy实现对宽字节的复制操作
+    for(int j=0;j<count;j++){
+        pFontFamily[j].GetFamilyName(familyName);
+        wcscat(familyList,familyName);//把familyName添加到familyList的最后
+        wcscat(familyList,L",");//wcscat实现对宽字节字符的添加操作
+    }
+    //graphics.DrawString(familyList,-1,&font,r,NULL,&solidbrush);
+    graphics.DrawString(L"hello",-1,&font,r,NULL,&solidbrush);
+    delete[] familyList;
+}
 LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)//消息的处理程序
 {
     HDC         hdc ;
@@ -66,18 +95,19 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case   WM_PAINT: {
         violet::NoteNode node;
-        violet::NoteNode node1;
-        violet::NoteNode node2;
         violet::VContext context;
         hdc = BeginPaint (hwnd, &ps) ;
         Gdiplus::Graphics graphics(hdc);
         context.Attach(graphics);
-        node.Translate(10,40);
+        
+        node.Translate(30,40);
+        node.SetText((std::string)"hello dfd ");
         node.Draw(context);
-        node1.Translate(20,40);
-        node1.Draw(context);
-        node2.Translate(30,30);
-        node2.Draw(context);
+
+        node.Translate(100,100);
+        node.SetText((std::string)"worldd  dfsd");
+        node.Draw(context);
+        
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
         //graphics.DrawLine(&red, 10, 10, 100, 100);
         //TextOut(hdc,0,0,"Hello",strlen("Hello"));

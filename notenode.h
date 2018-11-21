@@ -16,9 +16,11 @@ namespace violet {
             virtual void CreateContentStructure();
             virtual void Draw(VContext& context);
             virtual void SetTextColor(VColor& color);
+            void SetText(std::string& str);
             virtual ~NoteNode(){}
         private:
             VLineText* m_lineText;
+            bool m_textChanged;
     };
 }
 

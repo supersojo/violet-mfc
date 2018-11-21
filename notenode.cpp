@@ -17,9 +17,24 @@ void NoteNode::CreateContentStructure() {
     SetBackground(*background);
     SetContent(GetBackground());
     
+    SetBackgroundColor(VColor(255,255,255));
+    SetBorderColor(VColor(0,0,0));
+    SetTextColor(VColor(255,165,0));
 }
 
+void NoteNode::SetText(std::string& str) {
+    m_lineText->SetText(str);
+    // how to calc linetext's bounds?
+    // we need context
+    m_textChanged = true;
+}
 void NoteNode::Draw(VContext& context) {
+    if (m_textChanged) {
+        m_lineText->UpdateBounds(context);
+        std::cout<<m_lineText->GetBounds()<<std::endl;
+        m_lineText->GetContent().RefreshUp();
+        m_textChanged = false;
+    }
     AbstractNode::Draw(context);
     // additional draw
 }

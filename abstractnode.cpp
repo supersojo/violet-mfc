@@ -19,6 +19,8 @@ namespace violet {
         AbstractNode::AbstractNode(const AbstractNode& node) {
         }
         AbstractNode::~AbstractNode() {
+            if (m_content!=nullptr)
+                delete m_content;
         }
         /* IIdentifiable interface */
         Id& AbstractNode::GetId() {

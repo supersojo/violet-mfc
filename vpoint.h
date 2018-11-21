@@ -15,10 +15,10 @@ namespace violet {
                 m_x = x;
                 m_y = y;
             }
-            int GetX() {
+            int GetX() const{
                 return m_x;
             }
-            int GetY() {
+            int GetY() const{
                 return m_y;
             }
             void SetX(int x) {
