@@ -32,12 +32,12 @@ namespace violet {
                 virtual INode& GetEndNode() = 0;
                 virtual void SetStartLocation(VPoint& startingLocaltion) = 0;
                 virtual VPoint& GetStartLocation() = 0;
-                virtual VPoint& GetStartLocationOnGraph() = 0;
+                virtual VPoint  GetStartLocationOnGraph() = 0;
                 virtual void SetEndLocation(VPoint& endingLocation) = 0;
                 virtual VPoint& GetEndLocation() = 0;
-                virtual VPoint& GetEndLocationOnGraph() = 0;
+                virtual VPoint  GetEndLocationOnGraph() = 0;
                 virtual void SetTransitionPoints(VPoint transitionPoints[]) = 0;
-                virtual std::list<VPoint*> GetTransitionPoints() = 0;
+                virtual std::list<VPoint*>& GetTransitionPoints() = 0;
                 virtual bool IsTransitionPointsSupported() = 0;
                 virtual void ClearTransitionPoints() = 0;
                 virtual VLine GetConnectionPoints() = 0;

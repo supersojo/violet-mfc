@@ -2,7 +2,9 @@
 # nmake Makefile
 #
 EXE = main.exe
-OBJS = windows.obj direction.obj abstractnode.obj notenode.obj vcontext.obj stringutil.obj vcolor.obj
+OBJS = windows.obj direction.obj abstractnode.obj notenode.obj vcontext.obj stringutil.obj vcolor.obj\
+       abstractedge.obj
+
 LIBS = user32.lib gdi32.lib
 LFLAGS = /subsystem:windows
 CFLAGS = /c /EHsc

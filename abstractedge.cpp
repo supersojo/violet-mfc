@@ -1,5 +1,9 @@
 #include "abstractedge.h"
-
+#include "inode.h"
+#include "vline.h"
+#include "vpoint.h"
+#include "vrect.h"
+#include "direction.h"
 namespace violet {
     namespace abstract {
         AbstractEdge::AbstractEdge() {
@@ -38,7 +42,7 @@ namespace violet {
             RefreshContactPoints();
         }
         INode& AbstractEdge::GetStartNode() {
-            return *startingNode;
+            return *m_startNode;
         }
         void AbstractEdge::SetEndNode(INode& endingNode) {
             m_endNode = &endingNode;
@@ -68,7 +72,7 @@ namespace violet {
         VPoint& AbstractEdge::GetEndLocation() {
             return m_endLocation;
         }
-        VPoint& AbstractEdge::GetEndLocationOnGraph() {
+        VPoint AbstractEdge::GetEndLocationOnGraph() {
             if (m_endNode==nullptr || m_endLocation.GetValid()==false)
                 return VPoint(0,0,false);
             VPoint nodeLocationOnGraph = m_endNode->GetLocationOnGraph();
@@ -85,7 +89,7 @@ namespace violet {
                 m_transitionPoints.push_back(&transitionPoints[i]);
             RefreshContactPoints();
         }
-        std::list<VPoint*> AbstractEdge::GetTransitionPoints() {
+        std::list<VPoint*>& AbstractEdge::GetTransitionPoints() {
             return m_transitionPoints;
         }
         bool AbstractEdge::IsTransitionPointsSupported() {
@@ -107,7 +111,7 @@ namespace violet {
             VPoint relativeStart = m_startNode->GetConnectionPoint(*this);
             VPoint relativeEnd = m_endNode->GetConnectionPoint(*this);
             VPoint p1 = start+relativeStart;
-            VPoint P2 = end+relativeEnd;
+            VPoint p2 = end+relativeEnd;
             // align p1 p2 ??
             return VLine(p1,p2);
         }
@@ -120,10 +124,10 @@ namespace violet {
         Direction AbstractEdge::GetDirection(INode& node) {
             VPoint start = m_startNode->GetLocationOnGraph();
             VPoint end = m_endNode->GetLocationOnGraph();
-            VPoint startCenter(start.GetX()+m_startNode.GetBounds().GetSize().GetX()/2,
-                               start.GetY()+m_startNode.GetBounds().GetSize().GetY()/2);
-            VPoint endCenter(end.GetX()+m_endNode.GetBounds().GetSize().GetX()/2,
-                             end.GetY()+m_endNode.GetBounds().GetSize().GetY()/2);
+            VPoint startCenter(start.GetX()+m_startNode->GetBounds().GetSize().GetX()/2,
+                               start.GetY()+m_startNode->GetBounds().GetSize().GetY()/2);
+            VPoint endCenter(end.GetX()+m_endNode->GetBounds().GetSize().GetX()/2,
+                             end.GetY()+m_endNode->GetBounds().GetSize().GetY()/2);
             // size()==2
             if (m_contactPoints.size()>1) {
                 if (m_startNode==&node) {

@@ -1,6 +1,8 @@
 #ifndef ABSTRACTEDGE_H
 #define ABSTRACTEDGE_H
 #include <list>
+#include "iedge.h"
+#include "vpoint.h"
 namespace violet {
     class VPoint;
     namespace abstract {
@@ -34,7 +36,7 @@ namespace violet{
                 virtual VPoint GetStartLocationOnGraph();
                 virtual void SetEndLocation(VPoint& endingLocation);
                 virtual VPoint& GetEndLocation();
-                virtual VPoint& GetEndLocationOnGraph();
+                virtual VPoint  GetEndLocationOnGraph();
                 virtual void SetTransitionPoints(VPoint transitionPoints[]);
                 virtual std::list<VPoint*>& GetTransitionPoints();
                 virtual bool IsTransitionPointsSupported();
@@ -57,7 +59,7 @@ namespace violet{
             private:
                 void RefreshContactPoints();
                 Id m_id;
-                int revision;
+                int m_revision;
                 INode* m_startNode;
                 INode* m_endNode;
                 VPoint m_startLocation;
