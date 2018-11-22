@@ -3,11 +3,11 @@
 #
 EXE = main.exe
 OBJS = windows.obj direction.obj abstractnode.obj notenode.obj vcontext.obj stringutil.obj vcolor.obj\
-       abstractedge.obj
+       abstractedge.obj linestyle.obj lineedge.obj
 
 LIBS = user32.lib gdi32.lib
 LFLAGS = /subsystem:windows
-CFLAGS = /c /EHsc
+CFLAGS = /c /EHsc /Zi
 
 # explicit
 $(EXE) : $(OBJS)

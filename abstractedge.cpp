@@ -83,13 +83,13 @@ namespace violet {
             if (transitionPoints==nullptr)
                 return;
             int n = sizeof(transitionPoints)/sizeof(VPoint);
-            // clear vpoints already in list ????
+            // clear vpoints already in vector ????
             m_transitionPoints.clear();
             for (int i=0;i<n;i++)
                 m_transitionPoints.push_back(&transitionPoints[i]);
             RefreshContactPoints();
         }
-        std::list<VPoint*>& AbstractEdge::GetTransitionPoints() {
+        std::vector<VPoint*>& AbstractEdge::GetTransitionPoints() {
             return m_transitionPoints;
         }
         bool AbstractEdge::IsTransitionPointsSupported() {
@@ -119,7 +119,17 @@ namespace violet {
             return false;
         }
         VRect AbstractEdge::GetBounds() {
-            return VRect();
+            /*
+               \(x,y))
+                \
+                 \(x,y)
+            */
+            VLine conn = GetConnectionPoints();
+            return VRect(0,
+                         0,
+                         abs(conn.GetStart().GetX()-conn.GetEnd().GetX()),
+                         abs(conn.GetStart().GetY()-conn.GetEnd().GetY())
+                    );
         }
         Direction AbstractEdge::GetDirection(INode& node) {
             VPoint start = m_startNode->GetLocationOnGraph();
@@ -131,12 +141,9 @@ namespace violet {
             // size()==2
             if (m_contactPoints.size()>1) {
                 if (m_startNode==&node) {
-                    std::list<VPoint*>::iterator iter = m_contactPoints.begin();
-                    iter++;
-                    return Direction(startCenter,*(*iter));
+                    return Direction(startCenter,*(m_contactPoints[1]));
                 } else if (m_endNode==&node) {
-                    std::list<VPoint*>::iterator iter = m_contactPoints.begin();
-                    return Direction(startCenter,*(*iter));
+                    return Direction(startCenter,*(m_contactPoints[m_contactPoints.size()-2]));
                 }
             }
             return Direction(0,0);
@@ -162,15 +169,15 @@ namespace violet {
                 }
         }
         void AbstractEdge::UpdateContactPoints() {
-            std::list<VPoint*>::iterator iter;
-            for(iter = m_contactPoints.begin();iter!=m_contactPoints.end();iter++)
+            for(int i=0;i<m_contactPoints.size();i++)
             {
-                delete (*iter);
-                m_contactPoints.erase(iter);
+                delete m_contactPoints[i];
             }
+            m_contactPoints.clear();
             VLine connectionPoints = GetConnectionPoints();
             m_contactPoints.push_back(new VPoint(connectionPoints.GetStart()));
             m_contactPoints.push_back(new VPoint(connectionPoints.GetEnd()));
+            std::cout<<"abstract edge?"<<std::endl;
         }
     }
 }

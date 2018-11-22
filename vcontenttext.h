@@ -9,6 +9,8 @@ namespace violet {
             VContentText(VLineText& lineText) {
                 m_lineText = &lineText;
                 m_lineText->SetContent(*this);
+                m_lineWidth = DEFAULT_LINE_WIDTH;
+                // m_lineWidth <= content's width
             }
             virtual ~VContentText() {
                 if (m_lineText!=nullptr)
@@ -19,12 +21,19 @@ namespace violet {
                  +---+
                  |   |
                  +---+
-                 gap: 5 pixels
+                 10 pixels around text
                 */
-                VPoint oldLocation = context.GetLocation();
-                context.SetLocation(oldLocation+VPoint(10,10));
+                int lineWidth = context.GetLineWidth();
+                
+                context.SetLineWidth(m_lineWidth);
+                context.Translate(10,10);
+                
                 m_lineText->Draw(context);
-                context.SetLocation(oldLocation);
+                
+                context.Translate(-10,-10);
+                context.SetLineWidth(lineWidth);
+                
+
             }
             virtual void RefreshUp() {
                 SetOptimalSize();
@@ -45,6 +54,7 @@ namespace violet {
                              (rect1.GetSize().GetY()>rect2.GetSize().GetY()?rect1.GetSize().GetY():rect2.GetSize().GetY())
                              );
             }
+            static const int DEFAULT_LINE_WIDTH = 50;/* in pixel unit */
         private:
             void SetOptimalSize() {
                 VRect rect = GetMinimalBounds();
@@ -53,6 +63,7 @@ namespace violet {
                 SetHeight(rect.GetSize().GetY());
             }
             VLineText* m_lineText;
+            int m_lineWidth;
     };
 }
 

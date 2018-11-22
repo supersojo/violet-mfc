@@ -15,16 +15,17 @@ using namespace Gdiplus;
 VContext::VContext() {
     GdiplusStartupInput gdiplusStartupInput;
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-}
-void VContext::Fill(VShape& shape, VColor& color) {
-    shape.Fill(*this,GetLocation(),color);
-}
-void VContext::Draw(VShape& shape, VColor& color) {
-    shape.Draw(*this,GetLocation(),color);
-}
-void VContext::DrawLine(VPoint& start,VPoint& end,VColor& color) {
     
-    Pen pen(Color(color.GetR(), color.GetG(), color.GetB()), 1);
+    m_lineWidth = 50;//default
+}
+void VContext::Fill(VShape& shape) {
+    shape.Fill(*this);
+}
+void VContext::Draw(VShape& shape) {
+    shape.Draw(*this);
+}
+void VContext::DrawLine(VPoint& start,VPoint& end) {
+    Pen pen(Color(GetColor().GetR(), GetColor().GetG(), GetColor().GetB()), 1);
     m_graphics->DrawLine(&pen,start.GetX(),start.GetY(),end.GetX(),end.GetY());
 }
 void VContext::FillRectangle(VPoint& location,VPoint& size,VColor& color) {
@@ -46,13 +47,14 @@ VRect VContext::MeasureString(std::string& str) {
     RectF rectLayer; 
     rectLayer.X = 0;
     rectLayer.Y = 0; 
-    rectLayer.Width = 50; //default 
+    std::cout<<"linewidth:"<<GetLineWidth()<<std::endl;
+    rectLayer.Width = GetLineWidth(); //default 
     rectLayer.Height = -1; 
     RectF boundingBox; 
     m_graphics->MeasureString(wstr.c_str(), -1, &font, rectLayer, &boundingBox ); 
     return VRect(0,0,boundingBox.Width,boundingBox.Height);
 }
-void VContext::DrawString(std::string& str,VPoint& location, VColor&color) {
+void VContext::DrawString(std::string& str) {
     std::wstring wstr;
     wchar_t* t;
     t = (wchar_t*)wstr.c_str();
@@ -70,9 +72,8 @@ void VContext::DrawString(std::string& str,VPoint& location, VColor&color) {
                         &font,
                             RectF(GetLocation().GetX(),GetLocation().GetY(),rect.GetSize().GetX(),rect.GetSize().GetY()),
                             NULL,
-                            &SolidBrush(Color(color.GetR(),color.GetG(),color.GetB()))
+                            &SolidBrush(Color(GetColor().GetR(),GetColor().GetG(),GetColor().GetB()))
                         );
-    std::cout<<color<<std::endl;
 }
 VContext::~VContext() {
     GdiplusShutdown(gdiplusToken);

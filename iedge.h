@@ -1,6 +1,6 @@
 #ifndef IEDGE_H
 #define IEDGE_H
-#include <list>
+#include <vector>
 #include "iidentifiable.h"
 
 
@@ -37,7 +37,7 @@ namespace violet {
                 virtual VPoint& GetEndLocation() = 0;
                 virtual VPoint  GetEndLocationOnGraph() = 0;
                 virtual void SetTransitionPoints(VPoint transitionPoints[]) = 0;
-                virtual std::list<VPoint*>& GetTransitionPoints() = 0;
+                virtual std::vector<VPoint*>& GetTransitionPoints() = 0;
                 virtual bool IsTransitionPointsSupported() = 0;
                 virtual void ClearTransitionPoints() = 0;
                 virtual VLine GetConnectionPoints() = 0;

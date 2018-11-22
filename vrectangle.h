@@ -48,18 +48,18 @@ namespace violet {
             virtual VRect GetBounds() {
                 return VRect(m_x,m_y,m_width,m_height);
             }
-            virtual void Draw(VContext& context,VPoint& location,VColor& color) {
-                context.DrawLine(location,location+VPoint(m_width,0),color);
-                context.DrawLine(location,location+VPoint(0,m_height),color);
+            virtual void Draw(VContext& context) {
+                VPoint location = context.GetLocation();
+                context.DrawLine(location,location+VPoint(m_width,0));
+                context.DrawLine(location,location+VPoint(0,m_height));
                 context.DrawLine(location+VPoint(m_width,0),
-                                 location+VPoint(m_width,0)+VPoint(0,m_height),color);
+                                 location+VPoint(m_width,0)+VPoint(0,m_height));
                 context.DrawLine(location+VPoint(0,m_height),
-                                 location+VPoint(0,m_height)+VPoint(m_width,0),color);
-                std::cout<<"Draw rectangle"<< std::endl;
+                                 location+VPoint(0,m_height)+VPoint(m_width,0));
             }
-            virtual void Fill(VContext& context,VPoint& location,VColor& color) {
-                std::cout<<"Fill rectangle"<< std::endl;
-                context.FillRectangle(location,VPoint(m_width,m_height),color);
+            virtual void Fill(VContext& context) {
+                VPoint location = context.GetLocation();
+                context.FillRectangle(location,VPoint(m_width,m_height),context.GetColor());
             }
         private:
             double m_x;

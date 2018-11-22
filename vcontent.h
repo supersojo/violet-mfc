@@ -7,6 +7,12 @@
 namespace violet {
     class VContent {
         public:
+            VContent() {
+                m_width = 0;
+                m_height = 0;
+                m_minWidth = 0;
+                m_minHeight = 0;
+            }
             virtual ~VContent() {
             }
             virtual bool Contains(VPoint& point) {
@@ -23,10 +29,9 @@ namespace violet {
             virtual void Draw(VContext& context) {
             }
             virtual void Draw(VContext& context,VPoint& offset) {
-                VPoint& oldLocation = context.GetLocation();
-                context.SetLocation(oldLocation+offset);
+                context.Translate(offset.GetX(),offset.GetY());
                 Draw(context);
-                context.SetLocation(oldLocation);
+                context.Translate(-offset.GetX(),-offset.GetY());
             }
             double GetX() {
                 return 0;

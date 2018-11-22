@@ -22,8 +22,15 @@ namespace violet {
                 m_color = color;
             }
             virtual void Draw(VContext& context) {
-                // real draw
-                context.Fill(GetShape(),GetBackgroundColor());
+                // save
+                VColor color = context.GetColor();
+                
+                context.SetColor(GetBackgroundColor());
+                context.Fill(GetShape());
+                
+                // restore
+                context.SetColor(color);
+                
                 GetContent().Draw(context);
             }
             virtual VShape& GetShape() {

@@ -29,9 +29,10 @@ namespace violet {
                 return m_color;
             }
             void Draw(VContext& context) {
-                std::cout<<"Draw text:";
-                std::cout<<m_text<<std::endl;
-                context.DrawString(m_text,VPoint(0,0),m_color);
+                VColor color = context.GetColor();
+                context.SetColor(GetTextColor());
+                context.DrawString(m_text);
+                context.SetColor(color);
             }
             void SetContent(VContent& content) {
                 m_content = &content;
@@ -39,6 +40,9 @@ namespace violet {
             VContent& GetContent() {
                 return *m_content;
             }
+            /*
+            when string changed call UpdateBounds !!!
+            */
             void UpdateBounds(VContext& context) {
                 m_bounds = CalcTextBounds(context) + VRect(0,0,20,20);
             }

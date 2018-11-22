@@ -31,7 +31,7 @@ void NoteNode::SetText(std::string& str) {
 void NoteNode::Draw(VContext& context) {
     if (m_textChanged) {
         m_lineText->UpdateBounds(context);
-        std::cout<<m_lineText->GetBounds()<<std::endl;
+        std::cout<<"linetext:"<<m_lineText->GetText()<<":"<<m_lineText->GetBounds()<<std::endl;
         m_lineText->GetContent().RefreshUp();
         m_textChanged = false;
     }

@@ -24,7 +24,12 @@ namespace violet {
             }
             void Draw(VContext& context) {
                 // real draw border
-                context.Draw(GetShape(),GetBorderColor());
+                VColor color = context.GetColor();
+                context.SetColor(GetBorderColor());
+                
+                context.Draw(GetShape());
+                context.SetColor(color);
+                
                 // draw content
                 GetContent().Draw(context);
             }

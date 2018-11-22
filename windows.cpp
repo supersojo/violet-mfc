@@ -2,6 +2,7 @@
 #include <gdiplus.h>
 #include "vcontext.h"
 #include "notenode.h"
+#include "lineedge.h"
 #pragma comment(lib,"ole32.lib")
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdiplus.lib")
@@ -94,19 +95,39 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         return 0 ;
 
     case   WM_PAINT: {
+        std::cout<<"---->"<<std::endl;
         violet::NoteNode node;
+        violet::NoteNode node1;
         violet::VContext context;
         hdc = BeginPaint (hwnd, &ps) ;
         Gdiplus::Graphics graphics(hdc);
         context.Attach(graphics);
         
-        node.Translate(30,40);
-        node.SetText((std::string)"hello dfd ");
+        node1.SetParent(node);
+        node1.Translate(40,50);
+        std::cout<<"node1:"<<node1.GetBounds()<<std::endl;
+        node.Translate(50,100);
+        node.SetText((std::string)"hello");
+        std::cout<<"node:"<<node.GetBounds()<<std::endl;
         node.Draw(context);
-
-        node.Translate(100,100);
-        node.SetText((std::string)"worldd  dfsd");
-        node.Draw(context);
+        
+        node1.SetText((std::string)"hello dfd ");
+        node1.Draw(context);
+        
+        violet::LineEdge edge,edge1;
+        edge.SetStartNode(node);
+        edge.SetEndNode(node);
+        edge.SetStartLocation(violet::VPoint(1,1));
+        edge.SetEndLocation(violet::VPoint(1,1));
+        
+        edge.Draw(context);
+        
+        edge1.SetStartNode(node1);
+        edge1.SetEndNode(node1);
+        edge1.SetStartLocation(violet::VPoint(1,1));
+        edge1.SetEndLocation(violet::VPoint(1,1));
+        
+        edge1.Draw(context);
         
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
         //graphics.DrawLine(&red, 10, 10, 100, 100);
