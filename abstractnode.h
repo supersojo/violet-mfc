@@ -62,7 +62,7 @@ namespace violet {
                 virtual IGraph& GetGraph();
                 virtual void Translate(double dx,double dy);
                 virtual bool Contains(VPoint& point);
-                virtual VPoint& GetConnectionPoint(IEdge&edge);
+                virtual VPoint GetConnectionPoint(IEdge&edge);
                 virtual void SetLocation(VPoint& point);
                 virtual VPoint& GetLocation();
                 virtual VPoint GetLocationOnGraph();
@@ -116,6 +116,8 @@ namespace violet {
                 }
                 virtual std::vector<IEdge*> GetConnectedEdges();
             private:
+				bool SortEdgeByX(IEdge* e1,IEdge* e2);
+				bool SortEdgeByY(IEdge* e1,IEdge* e2);
                 class NodeGraph : public AbstractGraph {
                     public:
                         NodeGraph() {

@@ -1,3 +1,4 @@
+#include<algorithm>
 #include "abstractnode.h"
 #include "inode.h"
 #include "iedge.h"
@@ -132,8 +133,47 @@ namespace violet {
         bool AbstractNode::Contains(VPoint& point) {
             return true;
         }
-        VPoint& AbstractNode::GetConnectionPoint(IEdge&edge) {
-            return (*(new VPoint()));
+        VPoint AbstractNode::GetConnectionPoint(IEdge&edge) {
+			std::vector<IEdge*>& edgesOnSameSide = GetEdgesOnSameSide(edge);
+			int position = 0;
+			int size = edgesOnSameSide.size();
+			for (int i=0;i<size;i++) {
+				if (edgesOnSameSide[i] == &edge) {
+					position = i;
+					break;
+				}
+			}
+
+			Direction edgeDirection = edge.GetDirection(*this);
+			VPoint startingNodeLocation = GetLocation();
+
+			double x = startingNodeLocation.GetX();
+			double y = startingNodeLocation.GetY();
+			Direction nearestCardinalDirection = edgeDirection.GetNearestCardinalDirection();
+			if (nearestCardinalDirection.Equals(Direction::NORTH))
+			{
+				std::cout<<"for north :"<<size<<","<<position;
+				x += GetContent().GetWidth() - (GetContent().GetWidth() / (size + 1)) * (position + 1);
+				//y += GetContent().GetHeight();
+			}
+			else if (nearestCardinalDirection.Equals(Direction::SOUTH))
+			{
+				std::cout<<"for south :"<<size<<","<<position;
+				x += GetContent().GetWidth() - (GetContent().GetWidth() / (size + 1)) * (position + 1);
+				y += GetContent().GetHeight();
+			}
+			else if (nearestCardinalDirection.Equals(Direction::EAST))
+			{
+				x += GetContent().GetWidth();
+				y += GetContent().GetHeight() - (GetContent().GetHeight() / (size + 1)) * (position + 1);
+			}
+			else if (nearestCardinalDirection.Equals(Direction::WEST))
+			{
+				//x += GetContent().GetWidth();
+				y += GetContent().GetHeight() - (GetContent().GetHeight() / (size + 1)) * (position + 1);
+			}
+			std::cout<<VPoint(x,y)<<std::endl;
+			return VPoint(x,y);
         }
         void AbstractNode::SetLocation(VPoint& point) {
             m_location.SetX(point.GetX());
@@ -201,6 +241,16 @@ namespace violet {
             return m_textColor;
         }
         /* others */
+		bool AbstractNode::SortEdgeByX( IEdge* e1, IEdge* e2) {
+			Direction d1 = e1->GetDirection(*this);
+			Direction d2 = e2->GetDirection(*this);
+			return d1.GetX()<d2.GetX();
+		}
+		bool AbstractNode::SortEdgeByY( IEdge* e1, IEdge* e2) {
+			Direction d1 = e1->GetDirection(*this);
+			Direction d2 = e2->GetDirection(*this);
+			return d1.GetY()<d2.GetY();
+		}
         std::vector<IEdge*> AbstractNode::GetConnectedEdges() {
             std::vector<IEdge*> r;
             IGraph& graph = GetGraph();
@@ -239,6 +289,13 @@ namespace violet {
                 }
             }
             // sort 
+			if ((cardinalDirectionToSearch.Equals(Direction::NORTH)) ||
+			    (cardinalDirectionToSearch.Equals(Direction::SOUTH)))
+				sort(r.begin(),r.end());
+			if ((cardinalDirectionToSearch.Equals(Direction::EAST)) ||
+			    (cardinalDirectionToSearch.Equals(Direction::WEST)))
+				sort(r.begin(),r.end());
+			return r;
         }
         void AbstractNode::onChildChangeLocation(INode& child) {
         }

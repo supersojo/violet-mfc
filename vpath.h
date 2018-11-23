@@ -27,10 +27,10 @@ namespace violet {
                     std::cout<<m_path[i]->m_point<<"->";
                 }
                 std::cout<<std::endl;
-                context.DrawLine(m_path[0]->m_point,m_path[1]->m_point);
-                context.DrawLine(m_path[1]->m_point,m_path[2]->m_point);
-                context.DrawLine(m_path[2]->m_point,m_path[3]->m_point);
-                context.DrawLine(m_path[3]->m_point,m_path[4]->m_point);
+				for (int i=0;i<m_path.size()-1;i++) {
+					context.DrawLine(m_path[i]->m_point,m_path[i+1]->m_point);
+                }
+				std::cout<<"vpath draw end"<<std::endl;
             }
             static const int DO_MOVETO = 1;
             static const int DO_LINETO = 2;

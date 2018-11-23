@@ -34,7 +34,7 @@ namespace violet {
                 virtual IGraph& GetGraph() = 0;
                 virtual void Translate(double dx,double dy) = 0;
                 virtual bool Contains(VPoint& point) = 0;
-                virtual VPoint& GetConnectionPoint(IEdge&edge) = 0;
+                virtual VPoint GetConnectionPoint(IEdge&edge) = 0;
                 virtual void SetLocation(VPoint& point) = 0;
                 virtual VPoint& GetLocation() = 0;
                 virtual VPoint GetLocationOnGraph() = 0;

@@ -1,5 +1,6 @@
 #ifndef DIRECTION_H
 #define DIRECTION_H
+#include "config.h"
 #include <cmath>
 #include <iostream>
 #define _USE_MATH_DEFINES 
@@ -44,8 +45,25 @@ namespace violet {
                     if (abs(m_y)<0.000001)
                         m_y = 0;
                 }
-                Direction(VPoint& p,VPoint& q) : Direction(q.GetX()-p.GetX(),q.GetY()-p.GetY()){
+                Direction(VPoint& p,VPoint& q) : m_x(q.GetX()-p.GetX()),m_y(q.GetY()-p.GetY()){
+                    double length;
                     
+                    if (abs(m_x)<0.000001)
+                        m_x = 0;
+                    if (abs(m_y)<0.000001)
+                        m_y = 0;
+                    
+                    if ((m_x==0) && (m_y==0))
+                        return;
+                    
+                    length = sqrt(m_x*m_x+m_y*m_y);
+                    m_x = m_x/length;
+                    m_y = m_y/length;
+                    
+                    if (abs(m_x)<0.000001)
+                        m_x = 0;
+                    if (abs(m_y)<0.000001)
+                        m_y = 0;
                 }
                 Direction(const Direction& direction) {
                     m_x = direction.m_x;

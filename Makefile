@@ -6,7 +6,7 @@ OBJS = windows.obj direction.obj abstractnode.obj abstractedge.obj \
        abstractgraph.obj notenode.obj vcontext.obj stringutil.obj \
        vcolor.obj linestyle.obj bentstyle.obj lineedge.obj
 
-LIBS = user32.lib gdi32.lib
+LIBS = user32.lib gdi32.lib 
 LFLAGS = /subsystem:windows
 CFLAGS = /c /EHsc /Zi
 
@@ -16,7 +16,7 @@ $(EXE) : $(OBJS)
     
 # implicit
 .cpp.obj:
-    @cl $(CFLAGS) $<
+    cl $(CFLAGS) $<
     
 # clean
 clean:

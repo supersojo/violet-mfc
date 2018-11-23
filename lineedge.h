@@ -1,5 +1,6 @@
 #ifndef LINEEDGE_H
 #define LINEEDGE_H
+#include "config.h"
 #include "shapeedge.h"
 #include "vpath.h"
 #include "bentStyle.h"

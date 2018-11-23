@@ -1,5 +1,6 @@
 #ifndef VCONTENT_H
 #define VCONTENT_H
+#include "config.h"
 #include <list>
 #include "vrect.h"
 #include "vcontext.h"

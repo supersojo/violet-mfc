@@ -11,6 +11,7 @@ namespace violet {
             m_gridSticker = nullptr;
         }
         std::vector<INode*> AbstractGraph::GetAllNodes() {
+			std::cout<<"GetAllNodes"<<std::endl;
             std::vector<INode*> fifo;
             std::vector<INode*> r;
             for (int i=0;i<m_nodes.size();i++) {
@@ -20,10 +21,11 @@ namespace violet {
             while (!fifo.empty()) {
                 
                 std::vector<INode*>::iterator iter;
-                iter = m_nodes.begin();
+                iter = fifo.begin();
                 
                 std::list<INode*>& children = (*iter)->GetChildren();
-                
+                fifo.erase(iter);
+				
                 std::list<INode*>::iterator i;
                 for (i=children.begin();i!=children.end();i++) {
                     fifo.push_back(*i);
@@ -32,6 +34,10 @@ namespace violet {
             }
             // maybe revserse vector
             // so find node will speed 
+			for (int i=0;i<r.size();i++) {
+				std::cout<<r[i]->GetLocation();
+			}
+			std::cout<<std::endl;
             return r;
             
         }
