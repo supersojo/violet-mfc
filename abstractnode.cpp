@@ -202,15 +202,43 @@ namespace violet {
         }
         /* others */
         std::vector<IEdge*> AbstractNode::GetConnectedEdges() {
-            return std::vector<IEdge*>();
+            std::vector<IEdge*> r;
+            IGraph& graph = GetGraph();
+            std::vector<IEdge*> edges = graph.GetAllEdges();
+            std::vector<IEdge*>::iterator i;
+            for (i=edges.begin();i!=edges.end();i++) {
+                INode& start = (*i)->GetStartNode();
+                INode& end = (*i)->GetEndNode();
+                if ((this == &start) ||
+                    (this == &end)) {
+                    r.push_back((*i));
+                }
+            }
+            return r;
         }
         std::vector<IEdge*> AbstractNode::GetEdgesOnSameSide(IEdge& edge) {
             std::vector<IEdge*> r;
+            std::vector<IEdge*> connectedEdges;
             Direction d = edge.GetDirection(*this);
             if (d.GetX()==0 && d.GetY()==0)
                 return r;
             Direction cardinalDirectionToSearch = d.GetNearestCardinalDirection();
             // continue
+            connectedEdges = GetConnectedEdges();
+            std::vector<IEdge*>::iterator i;
+            for (i=connectedEdges.begin();i!=connectedEdges.end();i++) {
+                Direction edgeDirection = (*i)->GetDirection(*this);
+                Direction nearestCardinalDirection = edgeDirection.GetNearestCardinalDirection();
+                if ((cardinalDirectionToSearch.GetX()==nearestCardinalDirection.GetX()) &&
+                    (cardinalDirectionToSearch.GetY()==nearestCardinalDirection.GetY()))
+                    r.push_back((*i));
+                if (((&((*i)->GetStartNode())) == (&((*i)->GetEndNode()))) &&
+                    ((&((*i)->GetStartNode())) == this)) {
+                    // self loop
+                    r.push_back((*i));
+                }
+            }
+            // sort 
         }
         void AbstractNode::onChildChangeLocation(INode& child) {
         }
