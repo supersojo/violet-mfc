@@ -1,7 +1,9 @@
 #ifndef ABSTRACTNODE_H
 #define ABSTRACTNODE_H
 #include <list>
+#include <vector>
 #include <iostream>
+#include "abstractgraph.h"
 #include "inode.h"
 #include "icolorablenode.h"
 #include "vcontent.h"
@@ -86,6 +88,8 @@ namespace violet {
                     GetContent().Refresh();
                 }
                 virtual void CreateContentStructure();
+                virtual void onConnectedEdge(IEdge& connectedEdge){
+                }
                 void SetBorder(VContentBorder& border) {
                     m_border = &border;
                 }
@@ -110,7 +114,29 @@ namespace violet {
                         GetContent();
                     return *m_background;
                 }
+                virtual std::vector<IEdge*> GetConnectedEdges();
             private:
+                class NodeGraph : public AbstractGraph {
+                    public:
+                        NodeGraph() {
+                            m_nodePrototypes = new std::vector<INode*>();
+                            m_edgePrototypes = new std::vector<IEdge*>();
+                        }
+                        ~NodeGraph() {
+                            delete m_nodePrototypes;
+                            delete m_edgePrototypes;
+                        }
+                        virtual std::vector<INode*>& GetNodePrototypes() {
+                            return *m_nodePrototypes;
+                        }
+                        virtual std::vector<IEdge*>& GetEdgePrototypes() {
+                            return *m_edgePrototypes;
+                        }
+                    private:
+                        std::vector<INode*>* m_nodePrototypes;
+                        std::vector<IEdge*>* m_edgePrototypes;
+                };
+                std::vector<IEdge*> GetEdgesOnSameSide(IEdge& edge);
                 Id m_id;
                 int m_revision;
                 VPoint m_location;
@@ -126,6 +152,7 @@ namespace violet {
                 VColor m_backgroundColor;
                 VColor m_borderColor;
                 VColor m_textColor;
+                
         };
     }
 }

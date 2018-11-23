@@ -138,12 +138,12 @@ namespace violet {
                                start.GetY()+m_startNode->GetBounds().GetSize().GetY()/2);
             VPoint endCenter(end.GetX()+m_endNode->GetBounds().GetSize().GetX()/2,
                              end.GetY()+m_endNode->GetBounds().GetSize().GetY()/2);
-            // size()==2
+            // size() >= 2
             if (m_contactPoints.size()>1) {
                 if (m_startNode==&node) {
                     return Direction(startCenter,*(m_contactPoints[1]));
                 } else if (m_endNode==&node) {
-                    return Direction(startCenter,*(m_contactPoints[m_contactPoints.size()-2]));
+                    return Direction(endCenter,*(m_contactPoints[m_contactPoints.size()-2]));
                 }
             }
             return Direction(0,0);

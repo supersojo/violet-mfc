@@ -1,6 +1,10 @@
 #include "lineedge.h"
 #include "inode.h"
 #include "vcontext.h"
+#include "bentstyle.h"
+#include "direction.h"
+#include "vline.h"
+
 namespace violet {
 
 void LineEdge::RebuildShape() {
@@ -13,6 +17,58 @@ void LineEdge::RebuildShape() {
                 }
                 m_shape = path;
 }
+BentStyle& LineEdge::GetBentStyle() {
+    // no choice list first
+    std::cout<<"benstyle:"<<GetDirection(GetStartNode()).GetX()<<","<<GetDirection(GetStartNode()).GetY()<<std::endl;
+    Direction startDirection = GetDirection(GetStartNode()).GetNearestCardinalDirection();
+    Direction endDirection = GetDirection(GetEndNode()).GetNearestCardinalDirection();
+    std::cout<<"start direction:"<<startDirection.GetX()<<","<<startDirection.GetY()<<std::endl;
+    std::cout<<"end direction:"<<endDirection.GetX()<<","<<endDirection.GetY()<<std::endl;
+    /* 
+       ^N
+     W-+-->E
+       |S
+    */
+    if ((startDirection.Equals(Direction::NORTH)||startDirection.Equals(Direction::SOUTH)) &&
+        (endDirection.Equals(Direction::NORTH)||endDirection.Equals(Direction::SOUTH))) {
+        return BentStyle::VHV;
+    } else if ((startDirection.Equals(Direction::NORTH)||
+                startDirection.Equals(Direction::SOUTH)) &&
+               (endDirection.Equals(Direction::EAST)||
+                endDirection.Equals(Direction::WEST))) {
+        return BentStyle::VH;
+    }else if ((startDirection.Equals(Direction::EAST)||
+                startDirection.Equals(Direction::WEST)) &&
+               (endDirection.Equals(Direction::NORTH)||
+                endDirection.Equals(Direction::SOUTH))) {
+        return BentStyle::HV;
+    } else if ((startDirection.Equals(Direction::EAST)||
+                startDirection.Equals(Direction::WEST)) &&
+               (endDirection.Equals(Direction::EAST)||
+                endDirection.Equals(Direction::WEST))) {
+        return BentStyle::HVH;
+    }
+    /* default */
+    return BentStyle::STRAIGHT;
+}
+void LineEdge::ReloadContactPoints(std::vector<VPoint>& points) {
+    /* clear old m_contactPoints */        
+    for(int i=0;i<m_contactPoints.size();i++)
+        delete m_contactPoints[i];
+    
+    m_contactPoints.clear();
+    
+    //update new m_contactPoints
+    VPoint** ps = new VPoint*[points.size()];
+    for (int i=0;i<points.size();i++)
+        ps[i] = new VPoint;
+
+    for (int i=0;i<points.size();i++) {
+        *(ps[i]) = points[i];
+        m_contactPoints.push_back(ps[i]);
+    }
+    delete[] ps;
+}
 void LineEdge::UpdateContactPoints() {
     if (&GetStartNode()==&GetEndNode()) {// self loop
         /*
@@ -23,38 +79,30 @@ void LineEdge::UpdateContactPoints() {
         |          |-+
         +----------+
         */
-        VPoint** ps = new VPoint*[5];
-        for (int i=0;i<5;i++)
-            ps[i] = new VPoint;
-        std::cout<<"lineedge draw aa"<<std::endl;
+        std::vector<VPoint> points;
+
         VRect nodeBounds = GetStartNode().GetBounds();
         VPoint nodeLocation = GetStartNode().GetLocationOnGraph();
         
-        *ps[0] = VPoint(nodeLocation.GetX()+nodeBounds.GetSize().GetX(),
+        VPoint ps_0(nodeLocation.GetX()+nodeBounds.GetSize().GetX(),
                        nodeLocation.GetY()+nodeBounds.GetSize().GetY()/2
                        );
-        *ps[1] = VPoint((*ps[0]).GetX()+SELF_LOOP_GAP_X,
-                        (*ps[0]).GetY());
-        *ps[2] = VPoint((*ps[1]).GetX(),
-                        (*ps[1]).GetY()-nodeBounds.GetSize().GetY()-SELF_LOOP_GAP_Y);
-        *ps[3] = VPoint((*ps[0]).GetX()-nodeBounds.GetSize().GetX()/2,
-                        (*ps[2]).GetY());
-        *ps[4] = VPoint((*ps[3]).GetX(),
-                        (*ps[2]).GetY()+nodeBounds.GetSize().GetY()/2+SELF_LOOP_GAP_Y);
+        VPoint ps_1(ps_0.GetX()+SELF_LOOP_GAP_X,
+                    ps_0.GetY());
+        VPoint ps_2(ps_1.GetX(),
+                    ps_1.GetY()-nodeBounds.GetSize().GetY()-SELF_LOOP_GAP_Y);
+        VPoint ps_3(ps_0.GetX()-nodeBounds.GetSize().GetX()/2,
+                    ps_2.GetY());
+        VPoint ps_4(ps_3.GetX(),
+                    ps_2.GetY()+nodeBounds.GetSize().GetY()/2+SELF_LOOP_GAP_Y);
         
-        /* reload m_contactPoints */        
-        for(int i=0;i<m_contactPoints.size();i++)
-            delete m_contactPoints[i];
+        points.push_back(ps_0);
+        points.push_back(ps_1);
+        points.push_back(ps_2);
+        points.push_back(ps_3);
+        points.push_back(ps_4);
         
-        m_contactPoints.clear();
-        
-        m_contactPoints.push_back(ps[0]);
-        m_contactPoints.push_back(ps[1]);
-        m_contactPoints.push_back(ps[2]);
-        m_contactPoints.push_back(ps[3]);
-        m_contactPoints.push_back(ps[4]);
-        
-        delete[] ps;
+        ReloadContactPoints(points);
     } else {
         // node1 to node2
         VRect startBounds = GetStartNode().GetBounds();
@@ -75,9 +123,28 @@ void LineEdge::UpdateContactPoints() {
             points.push_back(*(transitionPoints[i]));
         }
         points.push_back(endCenter);
-        // benstyle process
-        
+        // benstyle process GetBentStyle will use m_contactPoints
         //update m_contactPoints
+        ReloadContactPoints(points);
+        
+        points = GetBentStyle().GetPath(points);
+        
+        VLine connectionPoints = GetConnectionPoints();
+        VPoint start = connectionPoints.GetStart();
+        VPoint end = connectionPoints.GetEnd();
+        std::cout<<"start:"<<start<<std::endl;
+        std::cout<<"end:"<<end<<std::endl;
+        points.clear();
+        points.push_back(start);
+        for (int i=0;i<transitionPoints.size();i++) {
+            points.push_back(*(transitionPoints[i]));
+        }
+        points.push_back(end);
+        
+        points = GetBentStyle().GetPath(points);
+        //update m_contactPoints
+        ReloadContactPoints(points);
+        
     }
     // after update contact points
     // rebuild shape path

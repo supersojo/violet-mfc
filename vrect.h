@@ -26,6 +26,14 @@ namespace violet {
             VPoint& GetLocation() {
                 return m_location;
             }
+            bool Contains(VPoint& point) {
+                if((point.GetX()>m_location.GetX() &&
+                    point.GetX()<(m_location.GetX()+m_size.GetX())) &&
+                   (point.GetY()>m_location.GetY() &&
+                    point.GetY()<(m_location.GetY()+m_size.GetY())))
+                    return true;
+                return false;
+            }
             void SetLocation(VPoint& location) {
                 m_location.SetX(location.GetX());
                 m_location.SetY(location.GetY());

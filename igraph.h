@@ -1,8 +1,7 @@
 #ifndef IGRAPH_H
 #define IGRAPH_H
 
-#include <list>
-#include <set>
+#include <vector>
 
 // prototypes
 namespace violet {
@@ -21,10 +20,10 @@ namespace violet {
     namespace abstract {
         class IGraph {
             public:
-                virtual std::list<INode>& GetNodePrototypes() = 0;
-                virtual std::list<IEdge>& GetEdgePrototypes() = 0;
-                virtual std::set<INode>& GetAllNodes() = 0;
-                virtual std::set<IEdge>& GetAllEdges() = 0;
+                virtual std::vector<INode*>& GetNodePrototypes() = 0;
+                virtual std::vector<IEdge*>& GetEdgePrototypes() = 0;
+                virtual std::vector<INode*> GetAllNodes() = 0;
+                virtual std::vector<IEdge*> GetAllEdges() = 0;
                 
                 virtual void RemoveEdge(IEdge &edge) = 0;
                 virtual void RemoveNode(INode &node) = 0;
@@ -43,7 +42,7 @@ namespace violet {
                 
                 virtual void Draw(VContext& context) = 0;
                 
-                virtual VRect& GetClipBounds() = 0;
+                virtual VRect GetClipBounds() = 0;
                 virtual void SetBounds(VRect& rect) = 0;
                 
                 virtual IGridSticker& GetGridSticker() = 0;

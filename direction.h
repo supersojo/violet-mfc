@@ -1,6 +1,7 @@
 #ifndef DIRECTION_H
 #define DIRECTION_H
 #include <cmath>
+#include <iostream>
 #define _USE_MATH_DEFINES 
 #include <math.h>
 #include "vpoint.h"
@@ -17,6 +18,10 @@ namespace violet {
     namespace abstract {
         class Direction {
             public:
+                Direction() {
+                    m_x = 0;
+                    m_y = 0;
+                }
                 Direction(double dx,double dy) {
                     double length;
                     m_x = dx;
@@ -39,8 +44,12 @@ namespace violet {
                     if (abs(m_y)<0.000001)
                         m_y = 0;
                 }
-                Direction(VPoint& p,VPoint& q) {
-                    Direction(q.GetX()-p.GetX(),q.GetY()-p.GetY());
+                Direction(VPoint& p,VPoint& q) : Direction(q.GetX()-p.GetX(),q.GetY()-p.GetY()){
+                    
+                }
+                Direction(const Direction& direction) {
+                    m_x = direction.m_x;
+                    m_y = direction.m_y;
                 }
                 Direction Turn(double angle) {
                     double x,y;
@@ -59,10 +68,12 @@ namespace violet {
                     long x,y;
                     x = round(GetX());
                     y = round(GetY());
+                    std::cout<<"x="<<x<<",y="<<y<<std::endl;
                     if ((abs(x)==1) && (abs(y)==1)) {
-                        if (abs(GetX()) < abs(GetY()))
+                        std::cout<<"x="<<abs(GetX())<<",y="<<abs(GetY())<<std::endl;
+                        if (abs(GetX()) >= abs(GetY()))
                             y = 0;
-                        if (abs(GetY()) < abs(GetX()))
+                        if (abs(GetX()) < abs(GetY()))
                             x = 0;
                     }
                     if (x==0 && y==-1)
@@ -73,9 +84,17 @@ namespace violet {
                         return Direction::EAST;
                     if (x==-1 && y==0)
                         return Direction::WEST;
+                    /* should never happen */
+                    std::cout<<"?"<<std::endl;
                     return *this;
                 }
-                bool Equal(Direction& d) {
+                Direction& operator=(const Direction& direction) {
+                    std::cout<<"="<<std::endl;
+                    m_x = direction.m_x;
+                    m_y = direction.m_y;
+                    return *this;
+                }
+                bool Equals(Direction& d) {
                     if ((m_x==d.GetX()) && (m_y==d.GetY()))
                         return true;
                     return false;

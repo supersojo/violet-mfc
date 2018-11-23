@@ -3,6 +3,7 @@
 #include "iedge.h"
 #include "vpoint.h"
 #include "vrect.h"
+#include "direction.h"
 #include "vcontent.h"
 #include "vcontentinrectangle.h"
 #include "vcontentindiamond.h"
@@ -114,8 +115,14 @@ namespace violet {
         }
         void AbstractNode::SetGraph(IGraph& g) {
             m_graph = &g;
+            std::list<INode*>::iterator i;
+            for (i=m_children.begin();i!=m_children.end();i++) {
+                (*i)->SetGraph(g);
+            }
         }
-        IGraph& AbstractNode::GetGraph() {
+        IGraph& AbstractNode::GetGraph() {  
+            if (m_graph==nullptr)
+                    return *new NodeGraph;
             return (*m_graph);
         }
         void AbstractNode::Translate(double dx,double dy) {
@@ -194,6 +201,17 @@ namespace violet {
             return m_textColor;
         }
         /* others */
+        std::vector<IEdge*> AbstractNode::GetConnectedEdges() {
+            return std::vector<IEdge*>();
+        }
+        std::vector<IEdge*> AbstractNode::GetEdgesOnSameSide(IEdge& edge) {
+            std::vector<IEdge*> r;
+            Direction d = edge.GetDirection(*this);
+            if (d.GetX()==0 && d.GetY()==0)
+                return r;
+            Direction cardinalDirectionToSearch = d.GetNearestCardinalDirection();
+            // continue
+        }
         void AbstractNode::onChildChangeLocation(INode& child) {
         }
         void AbstractNode::CreateContentStructure() {

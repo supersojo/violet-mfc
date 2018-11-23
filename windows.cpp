@@ -114,20 +114,14 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         node1.SetText((std::string)"hello dfd ");
         node1.Draw(context);
         
-        violet::LineEdge edge,edge1;
+        violet::LineEdge edge;
         edge.SetStartNode(node);
-        edge.SetEndNode(node);
+        edge.SetEndNode(node1);
         edge.SetStartLocation(violet::VPoint(1,1));
         edge.SetEndLocation(violet::VPoint(1,1));
         
         edge.Draw(context);
         
-        edge1.SetStartNode(node1);
-        edge1.SetEndNode(node1);
-        edge1.SetStartLocation(violet::VPoint(1,1));
-        edge1.SetEndLocation(violet::VPoint(1,1));
-        
-        edge1.Draw(context);
         
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
         //graphics.DrawLine(&red, 10, 10, 100, 100);
