@@ -31,24 +31,29 @@ BentStyle& LineEdge::GetBentStyle() {
     */
     if ((startDirection.Equals(Direction::NORTH)||startDirection.Equals(Direction::SOUTH)) &&
         (endDirection.Equals(Direction::NORTH)||endDirection.Equals(Direction::SOUTH))) {
+		std::cout<<"VHV"<<std::endl;
         return BentStyle::VHV;
     } else if ((startDirection.Equals(Direction::NORTH)||
                 startDirection.Equals(Direction::SOUTH)) &&
                (endDirection.Equals(Direction::EAST)||
                 endDirection.Equals(Direction::WEST))) {
+		std::cout<<"VH"<<std::endl;
         return BentStyle::VH;
     }else if ((startDirection.Equals(Direction::EAST)||
                 startDirection.Equals(Direction::WEST)) &&
                (endDirection.Equals(Direction::NORTH)||
                 endDirection.Equals(Direction::SOUTH))) {
+		std::cout<<"HV"<<std::endl;
         return BentStyle::HV;
     } else if ((startDirection.Equals(Direction::EAST)||
                 startDirection.Equals(Direction::WEST)) &&
                (endDirection.Equals(Direction::EAST)||
                 endDirection.Equals(Direction::WEST))) {
+		std::cout<<"HVH"<<std::endl;
         return BentStyle::HVH;
     }
     /* default */
+	std::cout<<"STAIGHT"<<std::endl;
     return BentStyle::STRAIGHT;
 }
 void LineEdge::ReloadContactPoints(std::vector<VPoint>& points) {
@@ -106,19 +111,30 @@ void LineEdge::UpdateContactPoints() {
     } else {
         // node1 to node2
         VRect startBounds = GetStartNode().GetBounds();
+		
         VRect endBounds = GetEndNode().GetBounds();
+		
         VPoint startLocationOnGraph = GetStartNode().GetLocationOnGraph();
+		
         VPoint endLocationOnGraph = GetEndNode().GetLocationOnGraph();
+		
         VPoint startCenter = startLocationOnGraph + 
                              VPoint(startBounds.GetSize().GetX()/2,
                                     startBounds.GetSize().GetY()/2);
         VPoint endCenter = endLocationOnGraph + 
                              VPoint(endBounds.GetSize().GetX()/2,
                                     endBounds.GetSize().GetY()/2);
+	    std::cout<<"startBounds"<<startBounds<<std::endl;
+		std::cout<<"endBounds"<<endBounds<<std::endl;
+		std::cout<<"startLocationOnGraph"<<startLocationOnGraph<<std::endl;
+		std::cout<<"endLocationOnGraph"<<endLocationOnGraph<<std::endl;
+		std::cout<<"startCenter"<<startCenter<<std::endl;	
+		std::cout<<"endCenter"<<endCenter<<std::endl;			
         std::vector<VPoint> points;
         points.push_back(startCenter);
         // add transition points
         std::vector<VPoint*> &transitionPoints = GetTransitionPoints();
+		std::cout<<"transition points:"<<transitionPoints.size()<<std::endl;	
         for (int i=0;i<transitionPoints.size();i++) {
             points.push_back(*(transitionPoints[i]));
         }
@@ -128,7 +144,11 @@ void LineEdge::UpdateContactPoints() {
         ReloadContactPoints(points);
         
         points = GetBentStyle().GetPath(points);
-        
+		std::cout<<"GetPath:"<<std::endl;
+        for (int i=0;i<points.size();i++) {
+			std::cout<<points[i]<<"->";
+		}
+		std::cout<<std::endl;
         VLine connectionPoints = GetConnectionPoints();
         VPoint start = connectionPoints.GetStart();
         VPoint end = connectionPoints.GetEnd();

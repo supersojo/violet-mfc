@@ -47,12 +47,13 @@ VRect VContext::MeasureString(std::string& str) {
     RectF rectLayer; 
     rectLayer.X = 0;
     rectLayer.Y = 0; 
+	std::cout<<str<<std::endl;
     std::cout<<"linewidth:"<<GetLineWidth()<<std::endl;
     rectLayer.Width = GetLineWidth(); //default 
     rectLayer.Height = -1; 
     RectF boundingBox; 
     m_graphics->MeasureString(wstr.c_str(), -1, &font, rectLayer, &boundingBox ); 
-    return VRect(0,0,boundingBox.Width,boundingBox.Height);
+    return VRect(0,0,boundingBox.Width+1,boundingBox.Height+1);// must +1 maybe long truncate the return value of float
 }
 void VContext::DrawString(std::string& str) {
     std::wstring wstr;

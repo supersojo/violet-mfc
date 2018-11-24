@@ -110,8 +110,10 @@ namespace violet {
             VPoint end = m_endNode->GetLocationOnGraph();
             VPoint relativeStart = m_startNode->GetConnectionPoint(*this);
             VPoint relativeEnd = m_endNode->GetConnectionPoint(*this);
-            VPoint p1 = start+relativeStart;
-            VPoint p2 = end+relativeEnd;
+            VPoint p1(start.GetX()+relativeStart.GetX()-m_startNode->GetLocation().GetX(),
+			          start.GetY()+relativeStart.GetY()-m_startNode->GetLocation().GetY());
+            VPoint p2(end.GetX()+relativeEnd.GetX()-m_endNode->GetLocation().GetX(),
+			          end.GetY()+relativeEnd.GetY()-m_endNode->GetLocation().GetY());
             // align p1 p2 ??
             return VLine(p1,p2);
         }

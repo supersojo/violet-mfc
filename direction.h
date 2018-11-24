@@ -86,9 +86,7 @@ namespace violet {
                     long x,y;
                     x = round(GetX());
                     y = round(GetY());
-                    std::cout<<"x="<<x<<",y="<<y<<std::endl;
                     if ((abs(x)==1) && (abs(y)==1)) {
-                        std::cout<<"x="<<abs(GetX())<<",y="<<abs(GetY())<<std::endl;
                         if (abs(GetX()) >= abs(GetY()))
                             y = 0;
                         if (abs(GetX()) < abs(GetY()))
@@ -103,11 +101,9 @@ namespace violet {
                     if (x==-1 && y==0)
                         return Direction::WEST;
                     /* should never happen */
-                    std::cout<<"?"<<std::endl;
                     return *this;
                 }
                 Direction& operator=(const Direction& direction) {
-                    std::cout<<"="<<std::endl;
                     m_x = direction.m_x;
                     m_y = direction.m_y;
                     return *this;

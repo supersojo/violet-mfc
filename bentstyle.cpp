@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "bentstyle.h"
 
 namespace violet {
@@ -20,6 +21,7 @@ std::vector<VPoint> BentStyle::GetPath(std::vector<VPoint>& points) {
     
     std::vector<VPoint> r;
     
+	std::cout<<"current path"<<std::endl;
     if (this == &STRAIGHT)
         r = GetStraightPath(start,end);
     else if (this == &FREE)
@@ -32,9 +34,15 @@ std::vector<VPoint> BentStyle::GetPath(std::vector<VPoint>& points) {
         r =  GetHVHPath(start,end);
     else if (this == &VHV)
         r =  GetVHVPath(start,end);
-    if (!r.empty())
+    if (!r.empty()) {
+		std::vector<VPoint>::iterator i;
+		for (i=r.begin();i!=r.end();i++) {
+			std::cout<<(*i)<<"->";
+		}
+		std::cout<<std::endl;
         return r;
-    
+	}
+    std::cout<<"revert path"<<std::endl;
     /* try reverse path*/
     if (start.GetX()==end.GetX() &&
         start.GetY()==end.GetY())
@@ -182,10 +190,10 @@ std::vector<VPoint> BentStyle::GetVHVPath(VPoint& start,VPoint& end) {
     if ((start.GetY() + 2*MIN_SEGMENT)  <= end.GetY()) {
         y1 = start.GetY();
         y2 = end.GetY();
-    } else if ((start.GetY() + 2*MIN_SEGMENT)  <= end.GetY()) {
+    } else if ((end.GetY() + 2*MIN_SEGMENT)  <= start.GetY()) {
         y1 = start.GetY();
         y2 = end.GetY();
-    } else {/* no enough space for H path*/
+    } else {/* no enough space for V path*/
         return r;
     }
     if (abs(x1 - x2) <= MIN_SEGMENT) {

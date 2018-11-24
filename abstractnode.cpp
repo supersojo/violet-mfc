@@ -137,9 +137,12 @@ namespace violet {
 			std::vector<IEdge*>& edgesOnSameSide = GetEdgesOnSameSide(edge);
 			int position = 0;
 			int size = edgesOnSameSide.size();
+			std::cout<<"===edgesonsameside======="<<edgesOnSameSide.size()<<std::endl;
 			for (int i=0;i<size;i++) {
 				if (edgesOnSameSide[i] == &edge) {
+					
 					position = i;
+					std::cout<<"===edgesonsameside position ======="<<position<<std::endl;
 					break;
 				}
 			}
@@ -150,27 +153,38 @@ namespace violet {
 			double x = startingNodeLocation.GetX();
 			double y = startingNodeLocation.GetY();
 			Direction nearestCardinalDirection = edgeDirection.GetNearestCardinalDirection();
+			/*
+			    0 1 2
+			  +---------+
+			0 |         | 0 
+			1 |         | 1
+			2 |         | 2
+			  +---------+
+			   0 1 2 
+			*/
 			if (nearestCardinalDirection.Equals(Direction::NORTH))
 			{
 				std::cout<<"for north :"<<size<<","<<position;
-				x += GetContent().GetWidth() - (GetContent().GetWidth() / (size + 1)) * (position + 1);
-				//y += GetContent().GetHeight();
+				x += ((double)GetContent().GetWidth() / (size + 1)) * (position + 1);
 			}
 			else if (nearestCardinalDirection.Equals(Direction::SOUTH))
 			{
 				std::cout<<"for south :"<<size<<","<<position;
-				x += GetContent().GetWidth() - (GetContent().GetWidth() / (size + 1)) * (position + 1);
-				y += GetContent().GetHeight();
+				x += ((double)GetContent().GetWidth() / (size + 1)) * (position + 1);
+				y += (double)GetContent().GetHeight();
 			}
 			else if (nearestCardinalDirection.Equals(Direction::EAST))
 			{
 				x += GetContent().GetWidth();
-				y += GetContent().GetHeight() - (GetContent().GetHeight() / (size + 1)) * (position + 1);
+				std::cout<<"height"<<GetContent().GetHeight()<<position;
+				y += ((double)GetContent().GetHeight() / (size + 1)) * (position + 1);
 			}
 			else if (nearestCardinalDirection.Equals(Direction::WEST))
 			{
-				//x += GetContent().GetWidth();
-				y += GetContent().GetHeight() - (GetContent().GetHeight() / (size + 1)) * (position + 1);
+				std::cout<<VPoint(x,y)<<std::endl;
+				double dy = GetContent().GetHeight() / (size + 1);
+				std::cout<<GetContent().GetHeight()<<"=============dx:"<<dy<<std::endl;
+				y += ((double)(GetContent().GetHeight()) / (size + 1)) * (position + 1);
 			}
 			std::cout<<VPoint(x,y)<<std::endl;
 			return VPoint(x,y);
@@ -255,23 +269,29 @@ namespace violet {
             std::vector<IEdge*> r;
             IGraph& graph = GetGraph();
             std::vector<IEdge*> edges = graph.GetAllEdges();
+			std::cout<<"getalledges:"<<edges.size()<<std::endl;
             std::vector<IEdge*>::iterator i;
+			std::cout<<"this : "<<this<<std::endl;
             for (i=edges.begin();i!=edges.end();i++) {
                 INode& start = (*i)->GetStartNode();
                 INode& end = (*i)->GetEndNode();
+				std::cout<<"start and end : "<<&start<<","<<&end<<std::endl;
                 if ((this == &start) ||
                     (this == &end)) {
                     r.push_back((*i));
                 }
             }
+			std::cout<<"getconnectededges:"<<r.size()<<std::endl;
             return r;
         }
         std::vector<IEdge*> AbstractNode::GetEdgesOnSameSide(IEdge& edge) {
             std::vector<IEdge*> r;
             std::vector<IEdge*> connectedEdges;
             Direction d = edge.GetDirection(*this);
-            if (d.GetX()==0 && d.GetY()==0)
+            if (d.GetX()==0 && d.GetY()==0) {
+				std::cout<<"getedgesonsameside null?"<<std::endl;
                 return r;
+			}
             Direction cardinalDirectionToSearch = d.GetNearestCardinalDirection();
             // continue
             connectedEdges = GetConnectedEdges();
@@ -289,12 +309,14 @@ namespace violet {
                 }
             }
             // sort 
+			#if 0
 			if ((cardinalDirectionToSearch.Equals(Direction::NORTH)) ||
 			    (cardinalDirectionToSearch.Equals(Direction::SOUTH)))
 				sort(r.begin(),r.end());
 			if ((cardinalDirectionToSearch.Equals(Direction::EAST)) ||
 			    (cardinalDirectionToSearch.Equals(Direction::WEST)))
 				sort(r.begin(),r.end());
+			#endif
 			return r;
         }
         void AbstractNode::onChildChangeLocation(INode& child) {

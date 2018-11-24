@@ -122,6 +122,7 @@ namespace violet {
                                  INode& end,VPoint& endLocation,
                                  VPoint transitionPoints[]) {
             //
+			std::cout<<"-------connect---------"<<std::endl;
             std::vector<INode*>& allNodes = GetAllNodes();
             if (&start!=nullptr && !HasNode(start))
                 AddNode(start,start.GetLocation());
@@ -129,11 +130,13 @@ namespace violet {
                 AddNode(end,end.GetLocation());
             edge.SetStartNode(start);
             edge.SetStartLocation(startLocation);
-            edge.SetStartNode(end);
-            edge.SetStartLocation(endLocation);
+            edge.SetEndNode(end);
+            edge.SetEndLocation(endLocation);
             edge.SetTransitionPoints(transitionPoints);
+			std::cout<<"----------abstractgraph connect here?-------------"<<std::endl;
             if (&start!=nullptr && start.AddConnection(edge)) {
                 m_edges.push_back(&edge);
+				std::cout<<"m_edges.size():"<<m_edges.size()<<std::endl;
                 AbstractNode* snode = dynamic_cast<AbstractNode*>(&start);
                 if (snode!=nullptr)
                     snode->onConnectedEdge(edge);

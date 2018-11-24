@@ -100,6 +100,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         std::cout<<"---->"<<std::endl;
         violet::NoteNode node;
         violet::NoteNode node1;
+		violet::NoteNode node2;
 		violet::abstract::IGraph* g;
         violet::VContext context;
         hdc = BeginPaint (hwnd, &ps) ;
@@ -107,27 +108,34 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         context.Attach(graphics);
         
         //node1.SetParent(node);
-        node1.Translate(50,50);
-        std::cout<<"node1:"<<node1.GetBounds()<<std::endl;
-        node.Translate(100,100);
-        node.SetText((std::string)"hello");
-        std::cout<<"node:"<<node.GetBounds()<<std::endl;
+        
+        node.Translate(0,0);
+        node.SetText((std::string)"node");
         node.Draw(context);
         
-        node1.SetText((std::string)"hello dfd ");
+		node1.Translate(100,100);
+        node1.SetText((std::string)"node1");
         node1.Draw(context);
+		
+		node2.Translate(100,150);
+		node2.SetText((std::string)"node2");
+		node2.Draw(context);
         
 		g = &(node.GetGraph());
 		node1.SetGraph(*g);
 		
-		g->AddNode(node,violet::VPoint(100,100));
-		g->AddNode(node1,violet::VPoint(50,50));
+		g->AddNode(node,violet::VPoint(0,0));
+		g->AddNode(node1,violet::VPoint(100,100));
+		g->AddNode(node2,violet::VPoint(100,150));
 		
         violet::LineEdge edge;
+		violet::LineEdge edge1;
 		violet::VPoint points[1]={violet::VPoint(50,110)};
         g->Connect(edge,node,violet::VPoint(1,1),node1,violet::VPoint(1,1),points);
+		g->Connect(edge1,node1,violet::VPoint(1,1),node2,violet::VPoint(1,1),points);
         #if 1
         edge.Draw(context);
+		edge1.Draw(context);
         #endif
         
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
