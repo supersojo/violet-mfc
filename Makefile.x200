@@ -4,7 +4,8 @@
 EXE = main.exe
 OBJS = windows.obj direction.obj abstractnode.obj abstractedge.obj \
        abstractgraph.obj notenode.obj vcontext.obj stringutil.obj \
-       vcolor.obj linestyle.obj bentstyle.obj lineedge.obj
+       vcolor.obj linestyle.obj bentstyle.obj lineedge.obj linestylechoicelist.obj \
+       bentstylechoicelist.obj arrowhead.obj
 LIBPATH = "C:\Program Files\Microsoft SDKs\Windows\v7.1\Lib"
 LIBS = $(LIBPATH)\user32.lib $(LIBPATH)\gdi32.lib $(LIBPATH)\kernel32.lib
 LFLAGS = /subsystem:windows

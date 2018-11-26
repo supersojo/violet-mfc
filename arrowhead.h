@@ -4,10 +4,12 @@
 #include <iostream>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "config.h"
 #include "vcolor.h"
 #include "vpoint.h"
 #include "vcontext.h"
 #include "vrelativepath.h"
+
 namespace violet {
     namespace abstract {
         class ArrowHead {
@@ -17,6 +19,18 @@ namespace violet {
                     m_path = nullptr;
                     m_needFill = false;
                 }
+				ArrowHead(const ArrowHead& arrowHead) {
+					m_borderColor = arrowHead.m_borderColor;
+					m_filledColor = arrowHead.m_filledColor;
+					m_needFill = arrowHead.m_needFill;
+					VRelativePath* path = arrowHead.m_path;
+					m_path = nullptr;
+					if (path!=nullptr) {
+						m_path = new VRelativePath;
+						*m_path = *path;
+					}
+				}
+				
                 ArrowHead(const VColor& filledColor) {
                     m_borderColor = VColor(0,0,0);// black
                     m_filledColor = filledColor;
@@ -68,8 +82,8 @@ namespace violet {
                 static double ARROW_LENGTH;
             private:
                 double CalculateAngle(VPoint&p, VPoint& q) {
-                    std::cout<<atan2(q.GetY()-p.GetY(), q.GetX()-p.GetX())<<std::endl;
-                    return atan2(q.GetY()-p.GetY(), q.GetX()-p.GetX());
+                    std::cout<<atan2((double)(q.GetY()-p.GetY()), (double)(q.GetX()-p.GetX()))<<std::endl;
+                    return atan2((double)(q.GetY()-p.GetY()), (double)(q.GetX()-p.GetX()));
                 }
                 void RotatePath(VRelativePath& path, double angle) {
                     std::cout<<"arrowhead Transform begin"<<std::endl;

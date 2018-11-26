@@ -36,6 +36,13 @@ namespace violet {
                         LineStyleIcon(VStroke& lineStyle) {
                             m_lineStyle = &lineStyle;
                         }
+						LineStyleIcon(const LineStyleIcon& lineStyleIcon) {
+							m_lineStyle = lineStyleIcon.m_lineStyle;
+						}
+						LineStyleIcon& operator=(const LineStyleIcon& lineStyleIcon) {
+							m_lineStyle = lineStyleIcon.m_lineStyle;
+							return *this;
+						}
                         int GetIconWidth() {
                             return WIDTH;
                         }
@@ -60,7 +67,7 @@ namespace violet {
                             context.SetColor(oldColor);
                         }
                     private:
-                        VStroke* m_lineStyle;
+                        VStroke* m_lineStyle;// all refer to LineStyle SOLID DOTTED, no need to free
                         const static int WIDTH = 35;
                         const static int HEIGHT = 20;
                 };

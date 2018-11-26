@@ -2,6 +2,7 @@
 #define CHOICELIST_H
 #include <vector>
 #include <utility> // for std::pair
+#include "config.h"
 /*
  this class will free all memory about key and value
  key and value 's memory must be allocated outsize

@@ -5,6 +5,13 @@
 namespace violet {
     class VRelativePath : public VPath {
         public:
+			VRelativePath(){}
+			VRelativePath(const VRelativePath& path):VPath(path){
+			}
+			VRelativePath& operator=(const VRelativePath& path) {
+				VPath::operator=(path);
+				return *this;
+			}
             /* for arrow head */
             void Transform(double angle) {
                 std::cout<<"VRelativePath transform begin"<<m_path.size()<<std::endl;
