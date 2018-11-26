@@ -6,7 +6,7 @@
 #include "igraph.h"
 #include "vpoint.h"
 #include "vicon.h"
-#include "trianglearrowhead.h"
+#include "diamondarrowhead.h"
 #pragma comment(lib,"ole32.lib")
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdiplus.lib")
@@ -139,7 +139,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         edge.Draw(context);
 		edge1.Draw(context);
         #endif
-        violet::abstract::TriangleArrowHead arrow(violet::VColor(255,0,0));
+        violet::abstract::DiamondArrowHead arrow(violet::VColor(255,0,0));
         arrow.Draw(context,violet::VPoint(0,0),violet::VPoint(30,70));
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
         //graphics.DrawLine(&red, 10, 10, 100, 100);
