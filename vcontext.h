@@ -1,5 +1,6 @@
 #ifndef VCONTEXT_H
 #define VCONTEXT_H
+#include <windows.h>
 #include <gdiplus.h>
 #include "vpoint.h"
 #include "vstroke.h"

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "vpoint.h"
 #include "vcontext.h"
+#include "vshape.h"
 namespace violet {
 
     class VPath : public VShape {
@@ -24,7 +25,14 @@ namespace violet {
             virtual void Draw(VContext& context) {
                 std::cout<<"vpath draw"<<std::endl;
                 for (int i=0;i<m_path.size();i++) {
-                    std::cout<<m_path[i]->m_point<<"->";
+
+                    if (m_path[i]->m_action == DO_LINETO) {
+                        context.DrawLine(context.GetLocation(),m_path[i]->m_point);
+                    }
+                    // move to 
+                    context.Translate(
+                         m_path[i]->m_point.GetX()-context.GetLocation().GetX(),
+                         m_path[i]->m_point.GetY()-context.GetLocation().GetY());
                 }
                 std::cout<<std::endl;
 				for (int i=0;i<m_path.size()-1;i++) {
@@ -46,6 +54,7 @@ namespace violet {
                 int m_action;
                 VPoint m_point;
             };
+        protected:
             std::vector<Entry*> m_path;
         
     };

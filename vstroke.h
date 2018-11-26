@@ -4,6 +4,14 @@
 namespace violet {
 
     class VStroke {
+        public:
+            VStroke(){}
+            VStroke(const VStroke& stroke){
+                
+            }
+            VStroke& operator=(const VStroke& stroke) {
+                return *this;
+            }
     };
 }
 

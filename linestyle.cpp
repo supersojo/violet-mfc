@@ -2,7 +2,7 @@
 
 namespace violet {
 
-    LineStyle LineStyle::SOLID;
-    LineStyle LineStyle::DOTTED;
+    VStroke LineStyle::SOLID;
+    VStroke LineStyle::DOTTED;
 
 }

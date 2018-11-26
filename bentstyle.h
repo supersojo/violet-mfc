@@ -7,6 +7,14 @@ namespace violet {
         public:
             std::vector<VPoint> GetPath(std::vector<VPoint>& points);
             
+            BentStyle() {
+            }
+            BentStyle(const BentStyle& bentStyle) {
+                
+            }
+            BentStyle& operator=(const BentStyle bentStyle) {
+                return *this;
+            }
             
             static BentStyle STRAIGHT;
             static BentStyle FREE;
