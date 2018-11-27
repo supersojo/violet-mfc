@@ -74,7 +74,10 @@ void LineEdge::ReloadContactPoints(std::vector<VPoint>& points) {
     delete[] ps;
 }
 void LineEdge::UpdateContactPoints() {
+	std::cout<<"UpdateContactPoints 111"<<std::endl;
+	
     if (&GetStartNode()==&GetEndNode()) {// self loop
+	std::cout<<"UpdateContactPoints 222"<<std::endl;
         /*
                 +----+
                 |    |
@@ -108,6 +111,7 @@ void LineEdge::UpdateContactPoints() {
         
         ReloadContactPoints(points);
     } else {
+		std::cout<<"UpdateContactPoints 333"<<std::endl;
         // node1 to node2
         VRect startBounds = GetStartNode().GetBounds();
 		
@@ -163,13 +167,19 @@ void LineEdge::UpdateContactPoints() {
 }
 
 void LineEdge::Draw(VContext& context) {
+	std::cout<<"line edge draw"<<std::endl;
     UpdateContactPoints();
+	std::cout<<"line edge draw 111"<<std::endl;
     
     // save 
     VColor color = context.GetColor();
     VStroke stroke = context.GetStroke();
     
     
+	for (int i=0;i<m_contactPoints.size();i++) {
+		std::cout<<*m_contactPoints[i]<<"->";
+	}
+	std::cout<<std::endl;
     context.Draw(GetShape());
     
     // restore

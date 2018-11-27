@@ -14,10 +14,14 @@
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdiplus.lib")
 using namespace Gdiplus;
+violet::NoteNode node;
+violet::abstract::IGraph* g;
 LRESULT CALLBACK WndProc (HWND, UINT, WPARAM, LPARAM); //声名消息处理函数(处理windows和接收windows消息)
 //hInstance:系统为窗口分配的实例号,2和3忘了.4是显示方式
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,PSTR szCmdLine, int iCmdShow)
 {
+	g = &(node.GetGraph());
+	
     static TCHAR szAppName[] = TEXT ("HelloWin") ; //窗体名
     HWND hwnd;//句柄
     MSG msg;//消息体
@@ -89,12 +93,15 @@ static void ListAllFonts(Graphics& graphics) {
     graphics.DrawString(L"hello",-1,&font,r,NULL,&solidbrush);
     delete[] familyList;
 }
+
 LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)//消息的处理程序
 {
     HDC         hdc ;
     PAINTSTRUCT ps ;
     RECT        rect ;
-
+	static int i = 0;
+	char b[64]={0};
+	
     switch (message)
     {
 
@@ -103,10 +110,6 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case   WM_PAINT: {
         std::cout<<"---->"<<std::endl;
-        violet::NoteNode node;
-        violet::NoteNode node1;
-		violet::NoteNode node2;
-		violet::abstract::IGraph* g;
         violet::VContext context;
         hdc = BeginPaint (hwnd, &ps) ;
         Gdiplus::Graphics graphics(hdc);
@@ -114,37 +117,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         
         //node1.SetParent(node);
     #if 1
-        node.Translate(0,0);
-        node.SetText((std::string)"node");
-        node.Draw(context);
-        
-		node1.Translate(100,100);
-        node1.SetText((std::string)"node1");
-        node1.Draw(context);
-		
-		node2.Translate(100,150);
-		node2.SetText((std::string)"node2");
-		node2.Draw(context);
-        
-		g = &(node.GetGraph());
-		node1.SetGraph(*g);
-		
-		g->AddNode(node,violet::VPoint(0,0));
-		g->AddNode(node1,violet::VPoint(100,100));
-		g->AddNode(node2,violet::VPoint(100,150));
-		
-        violet::NoteEdge edge;
-		violet::NoteEdge edge1;
-        violet::NoteEdge edge2;
-		violet::VPoint points[1]={violet::VPoint(50,110)};
-        g->Connect(edge,node,violet::VPoint(1,1),node1,violet::VPoint(1,1),points);
-		g->Connect(edge1,node1,violet::VPoint(1,1),node2,violet::VPoint(1,1),points);
-        g->Connect(edge2,node1,violet::VPoint(1,1),node2,violet::VPoint(1,1),points);
-        
-        edge.Draw(context);
-		edge1.Draw(context);
-        edge2.Draw(context);
-        
+        g->Draw(context);
     #endif
     
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
@@ -153,6 +126,18 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         EndPaint (hwnd, &ps) ;
         return 0 ;
     }
+	case WM_LBUTTONDOWN: {
+        GetClientRect(hwnd, &rect);
+		violet::NoteNode* node = new violet::NoteNode;
+		sprintf(b,"node %d",i); 
+		i++;
+		node->SetText(std::string(b));
+		int xPos = LOWORD(lParam);  // horizontal position of cursor 
+		int yPos = HIWORD(lParam);  // vertical position of cursor 
+		g->AddNode(*node,violet::VPoint(xPos,yPos));
+		InvalidateRect(hwnd, &rect, true);
+		return 0;
+	}
     case   WM_DESTROY:
         PostQuitMessage (0) ;
         return 0 ;

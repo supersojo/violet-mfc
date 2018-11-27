@@ -12,6 +12,7 @@ namespace violet {
     namespace abstract {
         AbstractNode::AbstractNode() {
             m_revision = 0;
+			m_z = 0;
             m_content = nullptr;
             m_parent = nullptr;
             m_graph = nullptr;
@@ -137,6 +138,7 @@ namespace violet {
 			std::vector<IEdge*>& edgesOnSameSide = GetEdgesOnSameSide(edge);
 			int position = 0;
 			int size = edgesOnSameSide.size();
+			
 			for (int i=0;i<size;i++) {
 				if (edgesOnSameSide[i] == &edge) {
 					
@@ -144,7 +146,11 @@ namespace violet {
 					break;
 				}
 			}
-
+			std::cout<<&edge<<":"<<size<<","<<position<<std::endl;
+			
+			if (size==0)
+				size = 1;// we are the only edge
+			
 			Direction edgeDirection = edge.GetDirection(*this);
 			VPoint startingNodeLocation = GetLocation();
 
@@ -261,14 +267,17 @@ namespace violet {
             std::vector<IEdge*> r;
             IGraph& graph = GetGraph();
             std::vector<IEdge*> edges = graph.GetAllEdges();
+			std::cout<<"all edges:"<<edges.size()<<std::endl;
             std::vector<IEdge*>::iterator i;
             for (i=edges.begin();i!=edges.end();i++) {
+				
                 INode& start = (*i)->GetStartNode();
                 INode& end = (*i)->GetEndNode();
                 if ((this == &start) ||
                     (this == &end)) {
                     r.push_back((*i));
                 }
+				std::cout<<(*i)<<":"<<&start<<"->"<<&end<<std::endl;
             }
             return r;
         }
@@ -282,9 +291,11 @@ namespace violet {
             Direction cardinalDirectionToSearch = d.GetNearestCardinalDirection();
             // continue
             connectedEdges = GetConnectedEdges();
+			std::cout<<&edge<<":connected edges:"<<connectedEdges.size()<<std::endl;
             std::vector<IEdge*>::iterator i;
             for (i=connectedEdges.begin();i!=connectedEdges.end();i++) {
                 Direction edgeDirection = (*i)->GetDirection(*this);
+				std::cout<<(*i)<<":direction:"<<edgeDirection.GetX()<<","<<edgeDirection.GetY()<<std::endl;
                 Direction nearestCardinalDirection = edgeDirection.GetNearestCardinalDirection();
                 if ((cardinalDirectionToSearch.GetX()==nearestCardinalDirection.GetX()) &&
                     (cardinalDirectionToSearch.GetY()==nearestCardinalDirection.GetY()))

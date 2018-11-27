@@ -134,6 +134,7 @@ namespace violet {
             edge.SetEndLocation(endLocation);
             edge.SetTransitionPoints(transitionPoints);
             if (&start!=nullptr && start.AddConnection(edge)) {
+				std::cout<<&edge<<" added"<<std::endl;
                 m_edges.push_back(&edge);
                 AbstractNode* snode = dynamic_cast<AbstractNode*>(&start);
                 if (snode!=nullptr)
@@ -202,8 +203,10 @@ namespace violet {
                     if ((*i)->GetZ() == z) {
                         //
                         if (dynamic_cast<NoteNode*>(*i)) {
+							std::cout<<"speical node???"<<std::endl;
                             specialNodes.push_back(*i);
                         } else {
+							std::cout<<"==== node???"<<std::endl;
                             if (&((*i)->GetParent())==nullptr)
                                 (*i)->Draw(context);
                         }
@@ -212,16 +215,18 @@ namespace violet {
                 }
                 z++;
             }
+			std::cout<<"draw edges"<<std::endl;
             // edges
             std::vector<IEdge*>::iterator i;
             for (i=m_edges.begin();i!=m_edges.end();i++) {
                 (*i)->Draw(context);
             }
+			std::cout<<"draw special nodes"<<std::endl;
             // special nodes
             std::vector<INode*>::iterator j;
             for (j=specialNodes.begin();j!=specialNodes.end();j++) {
-                VPoint nodeLocationOnGraph = (*j)->GetLocationOnGraph();
-                VPoint nodeLocation = (*j)->GetLocation();
+                //VPoint nodeLocationOnGraph = (*j)->GetLocationOnGraph();
+                //VPoint nodeLocation = (*j)->GetLocation();
                 //translate ?
                 (*j)->Draw(context);
             }
