@@ -18,12 +18,16 @@ void LineEdge::RebuildShape() {
                 m_shape = path;
 }
 BentStyle& LineEdge::GetBentStyle() {
-    // no choice list first
-    std::cout<<"benstyle:"<<GetDirection(GetStartNode()).GetX()<<","<<GetDirection(GetStartNode()).GetY()<<std::endl;
+    if (m_bentStyleChoiceList->GetSelectedValue().GetStyle().compare("FREE")!=0) {
+        ClearTransitionPoints();
+    }
+    if (m_bentStyleChoiceList->GetSelectedValue().GetStyle().compare("AUTO")!=0) {
+        return m_bentStyleChoiceList->GetSelectedValue();
+    }
+    // auto determine bent style
+
     Direction startDirection = GetDirection(GetStartNode()).GetNearestCardinalDirection();
     Direction endDirection = GetDirection(GetEndNode()).GetNearestCardinalDirection();
-    std::cout<<"start direction:"<<startDirection.GetX()<<","<<startDirection.GetY()<<std::endl;
-    std::cout<<"end direction:"<<endDirection.GetX()<<","<<endDirection.GetY()<<std::endl;
     /* 
        ^N
      W-+-->E
@@ -31,29 +35,24 @@ BentStyle& LineEdge::GetBentStyle() {
     */
     if ((startDirection.Equals(Direction::NORTH)||startDirection.Equals(Direction::SOUTH)) &&
         (endDirection.Equals(Direction::NORTH)||endDirection.Equals(Direction::SOUTH))) {
-		std::cout<<"VHV"<<std::endl;
         return BentStyle::VHV;
     } else if ((startDirection.Equals(Direction::NORTH)||
                 startDirection.Equals(Direction::SOUTH)) &&
                (endDirection.Equals(Direction::EAST)||
                 endDirection.Equals(Direction::WEST))) {
-		std::cout<<"VH"<<std::endl;
         return BentStyle::VH;
     }else if ((startDirection.Equals(Direction::EAST)||
                 startDirection.Equals(Direction::WEST)) &&
                (endDirection.Equals(Direction::NORTH)||
                 endDirection.Equals(Direction::SOUTH))) {
-		std::cout<<"HV"<<std::endl;
         return BentStyle::HV;
     } else if ((startDirection.Equals(Direction::EAST)||
                 startDirection.Equals(Direction::WEST)) &&
                (endDirection.Equals(Direction::EAST)||
                 endDirection.Equals(Direction::WEST))) {
-		std::cout<<"HVH"<<std::endl;
         return BentStyle::HVH;
     }
     /* default */
-	std::cout<<"STAIGHT"<<std::endl;
     return BentStyle::STRAIGHT;
 }
 void LineEdge::ReloadContactPoints(std::vector<VPoint>& points) {
@@ -123,18 +122,11 @@ void LineEdge::UpdateContactPoints() {
                                     startBounds.GetSize().GetY()/2);
         VPoint endCenter = endLocationOnGraph + 
                              VPoint(endBounds.GetSize().GetX()/2,
-                                    endBounds.GetSize().GetY()/2);
-	    std::cout<<"startBounds"<<startBounds<<std::endl;
-		std::cout<<"endBounds"<<endBounds<<std::endl;
-		std::cout<<"startLocationOnGraph"<<startLocationOnGraph<<std::endl;
-		std::cout<<"endLocationOnGraph"<<endLocationOnGraph<<std::endl;
-		std::cout<<"startCenter"<<startCenter<<std::endl;	
-		std::cout<<"endCenter"<<endCenter<<std::endl;			
+                                    endBounds.GetSize().GetY()/2);	
         std::vector<VPoint> points;
         points.push_back(startCenter);
         // add transition points
         std::vector<VPoint*> &transitionPoints = GetTransitionPoints();
-		std::cout<<"transition points:"<<transitionPoints.size()<<std::endl;	
         for (int i=0;i<transitionPoints.size();i++) {
             points.push_back(*(transitionPoints[i]));
         }
@@ -144,16 +136,12 @@ void LineEdge::UpdateContactPoints() {
         ReloadContactPoints(points);
         
         points = GetBentStyle().GetPath(points);
-		std::cout<<"GetPath:"<<std::endl;
-        for (int i=0;i<points.size();i++) {
-			std::cout<<points[i]<<"->";
-		}
-		std::cout<<std::endl;
+
+        ReloadContactPoints(points);
+        
         VLine connectionPoints = GetConnectionPoints();
         VPoint start = connectionPoints.GetStart();
         VPoint end = connectionPoints.GetEnd();
-        std::cout<<"start:"<<start<<std::endl;
-        std::cout<<"end:"<<end<<std::endl;
         points.clear();
         points.push_back(start);
         for (int i=0;i<transitionPoints.size();i++) {
@@ -175,9 +163,7 @@ void LineEdge::UpdateContactPoints() {
 }
 
 void LineEdge::Draw(VContext& context) {
-    std::cout<<"lineedge draw 11"<<std::endl;
     UpdateContactPoints();
-    std::cout<<"lineedge draw 22"<<std::endl;
     
     // save 
     VColor color = context.GetColor();

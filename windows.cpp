@@ -4,6 +4,7 @@
 #include "vcontext.h"
 #include "notenode.h"
 #include "lineedge.h"
+#include "noteedge.h"
 #include "igraph.h"
 #include "vpoint.h"
 #include "vicon.h"
@@ -102,9 +103,9 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case   WM_PAINT: {
         std::cout<<"---->"<<std::endl;
-        //violet::NoteNode node;
-        //violet::NoteNode node1;
-		//violet::NoteNode node2;
+        violet::NoteNode node;
+        violet::NoteNode node1;
+		violet::NoteNode node2;
 		violet::abstract::IGraph* g;
         violet::VContext context;
         hdc = BeginPaint (hwnd, &ps) ;
@@ -112,7 +113,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         context.Attach(graphics);
         
         //node1.SetParent(node);
-    #if 0
+    #if 1
         node.Translate(0,0);
         node.SetText((std::string)"node");
         node.Draw(context);
@@ -132,15 +133,17 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		g->AddNode(node1,violet::VPoint(100,100));
 		g->AddNode(node2,violet::VPoint(100,150));
 		
-        violet::LineEdge edge;
-		violet::LineEdge edge1;
+        violet::NoteEdge edge;
+		violet::NoteEdge edge1;
+        violet::NoteEdge edge2;
 		violet::VPoint points[1]={violet::VPoint(50,110)};
         g->Connect(edge,node,violet::VPoint(1,1),node1,violet::VPoint(1,1),points);
 		g->Connect(edge1,node1,violet::VPoint(1,1),node2,violet::VPoint(1,1),points);
+        g->Connect(edge2,node1,violet::VPoint(1,1),node2,violet::VPoint(1,1),points);
         
         edge.Draw(context);
 		edge1.Draw(context);
-        
+        edge2.Draw(context);
         
     #endif
     

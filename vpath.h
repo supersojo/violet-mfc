@@ -60,7 +60,6 @@ namespace violet {
                 m_path.clear();
             }
             virtual void Draw(VContext& context) {
-                std::cout<<"vpath draw"<<std::endl;
                 for (int i=0;i<m_path.size();i++) {
 
                     if (m_path[i]->m_action == DO_LINETO) {
@@ -71,11 +70,9 @@ namespace violet {
                          m_path[i]->m_point.GetX()-context.GetLocation().GetX(),
                          m_path[i]->m_point.GetY()-context.GetLocation().GetY());
                 }
-                std::cout<<std::endl;
 				for (int i=0;i<m_path.size()-1;i++) {
 					context.DrawLine(m_path[i]->m_point,m_path[i+1]->m_point);
                 }
-				std::cout<<"vpath draw end"<<std::endl;
             }
             static const int DO_MOVETO = 1;
             static const int DO_LINETO = 2;

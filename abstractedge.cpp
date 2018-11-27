@@ -167,6 +167,7 @@ namespace violet {
                 (m_endNode!=nullptr) &&
                 (m_startLocation.GetValid()) &&
                 (m_endLocation.GetValid())) {
+                    std::cout<<"~~~~~~~~~"<<std::endl;
                     UpdateContactPoints();
                 }
         }
@@ -179,7 +180,6 @@ namespace violet {
             VLine connectionPoints = GetConnectionPoints();
             m_contactPoints.push_back(new VPoint(connectionPoints.GetStart()));
             m_contactPoints.push_back(new VPoint(connectionPoints.GetEnd()));
-            std::cout<<"abstract edge?"<<std::endl;
         }
     }
 }

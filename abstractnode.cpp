@@ -137,12 +137,10 @@ namespace violet {
 			std::vector<IEdge*>& edgesOnSameSide = GetEdgesOnSameSide(edge);
 			int position = 0;
 			int size = edgesOnSameSide.size();
-			std::cout<<"===edgesonsameside======="<<edgesOnSameSide.size()<<std::endl;
 			for (int i=0;i<size;i++) {
 				if (edgesOnSameSide[i] == &edge) {
 					
 					position = i;
-					std::cout<<"===edgesonsameside position ======="<<position<<std::endl;
 					break;
 				}
 			}
@@ -164,29 +162,23 @@ namespace violet {
 			*/
 			if (nearestCardinalDirection.Equals(Direction::NORTH))
 			{
-				std::cout<<"for north :"<<size<<","<<position;
 				x += ((double)GetContent().GetWidth() / (size + 1)) * (position + 1);
 			}
 			else if (nearestCardinalDirection.Equals(Direction::SOUTH))
 			{
-				std::cout<<"for south :"<<size<<","<<position;
 				x += ((double)GetContent().GetWidth() / (size + 1)) * (position + 1);
 				y += (double)GetContent().GetHeight();
 			}
 			else if (nearestCardinalDirection.Equals(Direction::EAST))
 			{
 				x += GetContent().GetWidth();
-				std::cout<<"height"<<GetContent().GetHeight()<<position;
 				y += ((double)GetContent().GetHeight() / (size + 1)) * (position + 1);
 			}
 			else if (nearestCardinalDirection.Equals(Direction::WEST))
 			{
-				std::cout<<VPoint(x,y)<<std::endl;
 				double dy = GetContent().GetHeight() / (size + 1);
-				std::cout<<GetContent().GetHeight()<<"=============dx:"<<dy<<std::endl;
 				y += ((double)(GetContent().GetHeight()) / (size + 1)) * (position + 1);
 			}
-			std::cout<<VPoint(x,y)<<std::endl;
 			return VPoint(x,y);
         }
         void AbstractNode::SetLocation(VPoint& point) {
@@ -269,19 +261,15 @@ namespace violet {
             std::vector<IEdge*> r;
             IGraph& graph = GetGraph();
             std::vector<IEdge*> edges = graph.GetAllEdges();
-			std::cout<<"getalledges:"<<edges.size()<<std::endl;
             std::vector<IEdge*>::iterator i;
-			std::cout<<"this : "<<this<<std::endl;
             for (i=edges.begin();i!=edges.end();i++) {
                 INode& start = (*i)->GetStartNode();
                 INode& end = (*i)->GetEndNode();
-				std::cout<<"start and end : "<<&start<<","<<&end<<std::endl;
                 if ((this == &start) ||
                     (this == &end)) {
                     r.push_back((*i));
                 }
             }
-			std::cout<<"getconnectededges:"<<r.size()<<std::endl;
             return r;
         }
         std::vector<IEdge*> AbstractNode::GetEdgesOnSameSide(IEdge& edge) {
@@ -289,7 +277,6 @@ namespace violet {
             std::vector<IEdge*> connectedEdges;
             Direction d = edge.GetDirection(*this);
             if (d.GetX()==0 && d.GetY()==0) {
-				std::cout<<"getedgesonsameside null?"<<std::endl;
                 return r;
 			}
             Direction cardinalDirectionToSearch = d.GetNearestCardinalDirection();
