@@ -18,6 +18,7 @@ namespace violet {
                     m_borderColor = VColor(0,0,0);// black
                     m_path = nullptr;
                     m_needFill = false;
+                    SetName("");
                 }
 				ArrowHead(const ArrowHead& arrowHead) {
 					m_borderColor = arrowHead.m_borderColor;
@@ -29,13 +30,44 @@ namespace violet {
 						m_path = new VRelativePath;
 						*m_path = *path;
 					}
+                    SetName(arrowHead.m_name);
 				}
+                std::string GetName() {
+                    return m_name;
+                }
+                void SetName(std::string name) {
+                    m_name = name;
+                }
+                bool operator==(const ArrowHead& arrow) {
+                    return GetName().compare(arrow.m_name)==0;
+                }
 				
+                ArrowHead& operator=(const ArrowHead& arrowHead) {
+                    m_borderColor = arrowHead.m_borderColor;
+					m_filledColor = arrowHead.m_filledColor;
+					m_needFill = arrowHead.m_needFill;
+					VRelativePath* path = arrowHead.m_path;
+					if (m_path!=nullptr)
+                        delete m_path;
+                    m_path = nullptr;
+					if (path!=nullptr) {
+						m_path = new VRelativePath;
+						*m_path = *path;
+					}
+                    m_name = arrowHead.m_name;
+                    return *this;
+                }
                 ArrowHead(const VColor& filledColor) {
                     m_borderColor = VColor(0,0,0);// black
                     m_filledColor = filledColor;
                     m_path = nullptr;
                     m_needFill = true;
+                }
+                
+                virtual ArrowHead* Clone() {
+                    ArrowHead* t = new ArrowHead;
+                    *t = *this;
+                    return t;
                 }
                 VColor& GetBorderColor() {
                     return m_borderColor;
@@ -50,33 +82,42 @@ namespace violet {
                     if (m_needFill)
                         m_filledColor = color;
                 }
+                virtual VRect GetBounds() {
+                    if (m_path!=nullptr)
+                        return m_path->GetBounds();
+                    return VRect();
+                }
                 virtual VRelativePath& GetPath() {
                     if (m_path!=nullptr)
                         return *m_path;
                     return *(reinterpret_cast<VRelativePath*>(nullptr));
                 }
                 virtual void Draw(VContext& context,VPoint& p,VPoint& q) {
-                    std::cout<<"arrowhead draw begin()"<<std::endl;
+                    if (m_path==nullptr)
+                        return;
                     VColor oldColor = context.GetColor();
                     VRelativePath& path = GetPath();
                     RotatePath(path,CalculateAngle(q,p));
-                    std::cout<<"arrowhead draw calc end"<<std::endl;
+                    std::cout<<"line "<<p<<"-->"<<q<<std::endl;
                     context.DrawLine(p,q);
+                    VPoint oldLocation = context.GetLocation();
                     context.Translate(
-                        q.GetX()-context.GetLocation().GetX(),
-                        q.GetY()-context.GetLocation().GetY());
+                        q.GetX()-oldLocation.GetX(),
+                        q.GetY()-oldLocation.GetY());
                     if (m_needFill) {
                         context.SetColor(m_filledColor);
                         context.Fill(path);
                     }
-                    std::cout<<"arrowhead draw fill end"<<std::endl;
                     context.SetColor(m_borderColor);
                     context.Draw(path);
                     context.Translate(
-                        context.GetLocation().GetX()-q.GetX(),
-                        context.GetLocation().GetY()-q.GetY());
+                        oldLocation.GetX()-q.GetX(),
+                        oldLocation.GetY()-q.GetY());
                     context.SetColor(oldColor);
-                    std::cout<<"arrowhead draw end()"<<std::endl;
+                }
+                virtual ~ArrowHead() {
+                    if (m_path!=nullptr)
+                        delete m_path;
                 }
                 static double ARROW_ANGLE;
                 static double ARROW_LENGTH;
@@ -86,13 +127,12 @@ namespace violet {
                     return atan2((double)(q.GetY()-p.GetY()), (double)(q.GetX()-p.GetX()));
                 }
                 void RotatePath(VRelativePath& path, double angle) {
-                    std::cout<<"arrowhead Transform begin"<<std::endl;
                     path.Transform(angle);
-                    std::cout<<"arrowhead Transform end"<<std::endl;
                 }
                 VColor m_borderColor;
                 VColor m_filledColor;
                 bool m_needFill;
+                std::string m_name;
             protected:
                 VRelativePath* m_path;/* for arrow path */
         };

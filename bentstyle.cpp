@@ -4,13 +4,13 @@
 
 namespace violet {
 
-BentStyle BentStyle::STRAIGHT;
-BentStyle BentStyle::FREE;
-BentStyle BentStyle::HV;
-BentStyle BentStyle::VH;
-BentStyle BentStyle::HVH;
-BentStyle BentStyle::VHV;
-BentStyle BentStyle::AUTO;
+BentStyle BentStyle::STRAIGHT("STRAIGHT");
+BentStyle BentStyle::FREE("FREE");
+BentStyle BentStyle::HV("HV");
+BentStyle BentStyle::VH("VH");
+BentStyle BentStyle::HVH("HVH");
+BentStyle BentStyle::VHV("VHV");
+BentStyle BentStyle::AUTO("AUTO");
 
 
 std::vector<VPoint> BentStyle::GetPath(std::vector<VPoint>& points) {

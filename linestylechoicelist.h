@@ -19,13 +19,13 @@ namespace violet {
                 static VStroke* SOLID;
                 static VStroke* DOTTED;
             private:
-                static std::vector<VIcon*> GetKeys() {
+                static std::vector<VIcon*> __GetKeys() {
                     std::vector<VIcon*> keys;
                     for (int i=0;i<2;i++)
                         keys.push_back(new LineStyleIcon(*LINE_STYLES_ICONS[i]));
                     return keys;
                 }
-                static std::vector<VStroke*> GetValues() {
+                static std::vector<VStroke*> __GetValues() {
                     std::vector<VStroke*> values;
                     for (int i=0;i<2;i++)
                         values.push_back(new VStroke(*LINE_STYLES[i]));

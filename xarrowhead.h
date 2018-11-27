@@ -7,6 +7,23 @@ namespace violet {
     namespace abstract {
         class XArrowHead : public ArrowHead{
             public:
+                XArrowHead():ArrowHead(){
+                    GetPath();
+                    SetName("X");
+                }
+                XArrowHead(const XArrowHead& arrowHead) : ArrowHead(arrowHead) {
+                    SetName("X");
+                }
+                XArrowHead& operator=(const XArrowHead& arrowHead) {
+                    ArrowHead::operator=(arrowHead);
+                    SetName("X");
+                    return *this;
+                }
+                ArrowHead* Clone() {
+                    XArrowHead* t = new XArrowHead;
+                    *t = *this;
+                    return t;
+                }
                 VRelativePath& GetPath() {
                     double CROSS_ANGLE = M_PI / 4;
                     if (m_path==nullptr) {

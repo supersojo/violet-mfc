@@ -1,12 +1,14 @@
 #include <windows.h>
 #include <gdiplus.h>
+#include <iostream>
 #include "vcontext.h"
 #include "notenode.h"
 #include "lineedge.h"
 #include "igraph.h"
 #include "vpoint.h"
 #include "vicon.h"
-#include "diamondarrowhead.h"
+#include "bentstyle.h"
+#include "arrowheadchoicelist.h"
 #pragma comment(lib,"ole32.lib")
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdiplus.lib")
@@ -100,9 +102,9 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case   WM_PAINT: {
         std::cout<<"---->"<<std::endl;
-        violet::NoteNode node;
-        violet::NoteNode node1;
-		violet::NoteNode node2;
+        //violet::NoteNode node;
+        //violet::NoteNode node1;
+		//violet::NoteNode node2;
 		violet::abstract::IGraph* g;
         violet::VContext context;
         hdc = BeginPaint (hwnd, &ps) ;
@@ -110,7 +112,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         context.Attach(graphics);
         
         //node1.SetParent(node);
-        
+    #if 0
         node.Translate(0,0);
         node.SetText((std::string)"node");
         node.Draw(context);
@@ -135,12 +137,13 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		violet::VPoint points[1]={violet::VPoint(50,110)};
         g->Connect(edge,node,violet::VPoint(1,1),node1,violet::VPoint(1,1),points);
 		g->Connect(edge1,node1,violet::VPoint(1,1),node2,violet::VPoint(1,1),points);
-        #if 1
+        
         edge.Draw(context);
 		edge1.Draw(context);
-        #endif
-        violet::abstract::DiamondArrowHead arrow(violet::VColor(255,0,0));
-        arrow.Draw(context,violet::VPoint(0,0),violet::VPoint(30,70));
+        
+        
+    #endif
+    
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
         //graphics.DrawLine(&red, 10, 10, 100, 100);
         //TextOut(hdc,0,0,"Hello",strlen("Hello"));

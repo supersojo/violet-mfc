@@ -16,6 +16,8 @@ namespace violet {
             }
             virtual void Fill(VContext& context) {
             }
+            virtual ~VShape() {
+            }
     };
 }
 

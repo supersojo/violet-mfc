@@ -18,7 +18,7 @@ namespace violet {
             new LineStyleChoiceList::LineStyleIcon(*LineStyleChoiceList::SOLID),
             new LineStyleChoiceList::LineStyleIcon(*LineStyleChoiceList::DOTTED)
         };
-        LineStyleChoiceList::LineStyleChoiceList() : IconChoiceList<VStroke>(GetKeys(),GetValues()){
+        LineStyleChoiceList::LineStyleChoiceList() : IconChoiceList<VStroke>(__GetKeys(),__GetValues()){
             
         }
         LineStyleChoiceList::~LineStyleChoiceList() {

@@ -7,7 +7,28 @@ namespace violet {
     namespace abstract {
         class DiamondArrowHead : public ArrowHead{
             public:
+                DiamondArrowHead():ArrowHead(){
+                    GetPath();// create path
+                    SetName("DIAMOND");
+                }
+                DiamondArrowHead(const DiamondArrowHead& arrowHead) : ArrowHead(arrowHead){
+                }
                 DiamondArrowHead(VColor& filledColor) : ArrowHead(filledColor) {
+                    GetPath();// create path
+                    SetName("DIAMOND");
+                }
+                DiamondArrowHead(VColor& filledColor,std::string name) : ArrowHead(filledColor) {
+                    GetPath();// create path
+                    SetName(name);
+                }
+                DiamondArrowHead& operator=(const DiamondArrowHead& arrowHead) {
+                    ArrowHead::operator=(arrowHead);
+                    return *this;
+                }
+                ArrowHead* Clone() {
+                    DiamondArrowHead* t = new DiamondArrowHead;
+                    *t = *this;
+                    return t;
                 }
                 VRelativePath& GetPath() {
                     if (m_path==nullptr) {

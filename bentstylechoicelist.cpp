@@ -30,7 +30,7 @@ namespace violet {
         
         /* need free the news */
         
-        BentStyleChoiceList::BentStyleChoiceList() : TextChoiceList<BentStyle>(GetKeys(),GetValues()){
+        BentStyleChoiceList::BentStyleChoiceList() : TextChoiceList<BentStyle>(__GetKeys(),__GetValues()){
         }
         BentStyleChoiceList::~BentStyleChoiceList() {
         }

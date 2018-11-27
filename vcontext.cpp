@@ -35,6 +35,18 @@ void VContext::FillRectangle(VPoint& location,VPoint& size,VColor& color) {
         size.GetX(),size.GetY()
     );
 }
+void VContext::FillPolygon(VPoint& location,VPoint* points,int count){
+    PointF* p = new PointF[count];
+    for(int i=0;i<count;i++) {
+        *(p+i) = PointF((points+i)->GetX(),(points+i)->GetY());
+    }
+    m_graphics->FillPolygon(
+        &SolidBrush(Color(GetColor().GetR(),GetColor().GetG(),GetColor().GetB())),
+        p,
+        count
+    );
+    delete[] p;
+}
 VRect VContext::MeasureString(std::string& str) {
     std::wstring wstr;
     wchar_t* t;

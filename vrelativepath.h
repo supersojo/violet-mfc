@@ -30,8 +30,8 @@ namespace violet {
                     double x1 = x0*cos(angle)-y0*sin(angle);
                     double y1 = x0*sin(angle)+y0*cos(angle);
                     std::cout<<"VRelativePath 222"<<std::endl;
-                    m_path[i]->m_point.SetX(x1);
-                    m_path[i]->m_point.SetY(y1);
+                    m_path[i]->m_point.SetX(round(x1));// 防止转换丢失精度 使用round
+                    m_path[i]->m_point.SetY(round(y1));// 
                     std::cout<<"VRelativePath 333"<<std::endl;
                 }
                 std::cout<<"VRelativePath transform end"<<std::endl;
@@ -57,6 +57,20 @@ namespace violet {
                 }
                 
 				std::cout<<"vrelativepath draw end"<<std::endl;
+            }
+            virtual void Fill(VContext& context) {
+                int j = 0;
+                VPoint* points = new VPoint[m_path.size()];
+                VPoint origin = context.GetLocation();
+                for (int i=0;i<m_path.size();i++) {
+                    if (m_path[i]->m_action == DO_LINETO) {
+                        *(points+j) = origin+m_path[i]->m_point;
+                        j++;
+                    }
+                }
+                context.FillPolygon(context.GetLocation(), points, j);
+                std::cout<<"vrelativepath Fill"<<std::endl;
+                delete[] points;
             }
     };
 }

@@ -1,6 +1,7 @@
 #ifndef CHOICELIST_H
 #define CHOICELIST_H
 #include <vector>
+#include <iostream>
 #include <utility> // for std::pair
 #include "config.h"
 /*
@@ -22,23 +23,23 @@ namespace violet {
                     std::vector<ValueType*>::iterator i_val;
                     ElementType* e=nullptr;
                     for (i_key=keys.begin(),i_val=values.begin();i_key!=keys.end();i_key++,i_val++) {
+                        
                         e = new ElementType;
                         e->first = (*i_key);
                         e->second = (*i_val);
                         m_choices.push_back(e);
                     }
-                    
                     m_selectedPos = 0;
                 }
                 
-                std::vector<KeyType*> GetKeys() {
+                virtual std::vector<KeyType*> GetKeys() {
                     std::vector<KeyType*> keys;
                     for (int i=0;i<m_choices.size();i++) {
                         keys.push_back(m_choices[i]->first);
                     }
                     return keys;
                 }
-                std::vector<ValueType*> GetValues() {
+                virtual std::vector<ValueType*> GetValues() {
                     std::vector<ValueType*> values;
                     for (int i=0;i<m_choices.size();i++) {
                         values.push_back(m_choices[i]->second);
@@ -57,8 +58,8 @@ namespace violet {
                         how to compare two value?
                         Equals ?? or address compare
                         */
-                        if (&value == (m_choices[i].second)) {
-                            m_selectedPos = index;
+                        if (value == *(m_choices[i]->second)) {
+                            m_selectedPos = i;
                             return true;
                         }
                     }
@@ -74,10 +75,11 @@ namespace violet {
                     std::vector<ElementType*>::iterator i;
                     for (i=m_choices.begin();i!=m_choices.end();i++) {
                         delete (*i)->first;//KeyType*
-                        delete (*i)->second;//ValueType8
+                        delete (*i)->second;//ValueType*
                         delete (*i);// ElementType*
-                        m_choices.erase(i);
+
                     }
+                    m_choices.clear();
                 }
             private:
                 ChoiceList(){}/* disallow default construct */

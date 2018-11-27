@@ -7,7 +7,30 @@ namespace violet {
     namespace abstract {
         class TriangleArrowHead : public ArrowHead{
             public:
+                TriangleArrowHead():ArrowHead(){
+                    GetPath();
+                    SetName("TRIANGLE");
+                }
+                TriangleArrowHead(const TriangleArrowHead& arrowHead) : ArrowHead(arrowHead){
+                }
                 TriangleArrowHead(VColor& filledColor) : ArrowHead(filledColor) {
+                    GetPath();
+                    
+                    SetName("TRIANGLE");
+                }
+                TriangleArrowHead(VColor& filledColor,std::string name) : ArrowHead(filledColor) {
+                    GetPath();
+                    
+                    SetName(name);
+                }
+                TriangleArrowHead& operator=(const TriangleArrowHead& arrowHead) {
+                    ArrowHead::operator=(arrowHead);
+                    return *this;
+                }
+                ArrowHead* Clone() {
+                    TriangleArrowHead* t = new TriangleArrowHead;
+                    *t = *this;
+                    return t;
                 }
                 VRelativePath& GetPath() {
                     if (m_path==nullptr) {

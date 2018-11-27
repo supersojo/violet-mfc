@@ -9,13 +9,21 @@ namespace violet {
             
             BentStyle() {
             }
+            BentStyle(std::string style) : m_style(style){
+            }
             BentStyle(const BentStyle& bentStyle) {
-                
+                m_style = bentStyle.m_style;
             }
             BentStyle& operator=(const BentStyle bentStyle) {
+                m_style = bentStyle.m_style;
                 return *this;
             }
-            
+            std::string GetStyle(){
+                return m_style;
+            }
+            bool operator==(const BentStyle& style) {
+                return GetStyle().compare(style.m_style)==0;
+            }
             static BentStyle STRAIGHT;
             static BentStyle FREE;
             static BentStyle HV;
@@ -24,6 +32,7 @@ namespace violet {
             static BentStyle VHV;
             static BentStyle AUTO;
         private:
+            std::string m_style;
             std::vector<VPoint> GetStraightPath(VPoint& start,VPoint& end);
             std::vector<VPoint> GetFreePath(std::vector<VPoint>& points);
             std::vector<VPoint> GetHVPath(VPoint& start,VPoint& end);

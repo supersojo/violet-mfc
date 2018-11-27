@@ -52,6 +52,7 @@ namespace violet {
             void DrawString(std::string& str);
             VRect MeasureString(std::string& str);
             void FillRectangle(VPoint& location,VPoint& size,VColor& color);
+            void FillPolygon(VPoint& location,VPoint* points,int count);
             ~VContext();
         private:
             ULONG_PTR gdiplusToken;
