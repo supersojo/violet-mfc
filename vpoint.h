@@ -43,7 +43,8 @@ namespace violet {
             VPoint& operator=(const VPoint& point) {
                 m_x = point.m_x;
                 m_y = point.m_y;
-                m_valid = point.m_valid;
+                m_valid = true/*point.m_valid*/;
+                // assign always set point valid
                 return *this;
             }
             VPoint operator+(const VPoint& point) {

@@ -10,6 +10,8 @@
 #include "labeledlineedge.h"
 #include "igraph.h"
 #include "vpoint.h"
+#include "pointnode.h"
+#include "imagenode.h"
 #include "vicon.h"
 #include "bentstyle.h"
 #include "arrowheadchoicelist.h"
