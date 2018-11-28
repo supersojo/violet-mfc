@@ -24,8 +24,32 @@ void VContext::Fill(VShape& shape) {
 void VContext::Draw(VShape& shape) {
     shape.Draw(*this);
 }
+void VContext::Rotate(VPoint& point,double angle) {
+    m_graphics->TranslateTransform(point.GetX(),point.GetY());
+    m_graphics->RotateTransform(angle);
+    m_graphics->TranslateTransform(-point.GetX(),-point.GetY());
+}
 void VContext::DrawLine(VPoint& start,VPoint& end) {
+    /*
+    DashStyleSolid
+    DashStyleDash
+    DashStyleDot
+    DashStyleDashDot
+    DashStyleDashDotDot
+    DashStyleCustom
+    */
+    
+    REAL dashVals[2] = {
+	5.0f,   //线长5个像素
+	2.0f   //间隔2个像素
+    };
+    
     Pen pen(Color(GetColor().GetR(), GetColor().GetG(), GetColor().GetB()), 1);
+    if (GetStroke().GetName().compare("SOLID")==0) {
+        pen.SetDashStyle(DashStyleSolid);
+    } else if (GetStroke().GetName().compare("DOTTED")==0) {
+        pen.SetDashPattern(dashVals, 2);
+    }
     m_graphics->DrawLine(&pen,start.GetX(),start.GetY(),end.GetX(),end.GetY());
 }
 void VContext::FillRectangle(VPoint& location,VPoint& size,VColor& color) {

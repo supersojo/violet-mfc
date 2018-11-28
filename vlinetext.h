@@ -4,6 +4,7 @@
 #include "gdiplus.h"
 #include "vrect.h"
 #include "vcolor.h"
+#include "vcontent.h"
 namespace violet {
     using namespace Gdiplus;
     class VLineText {

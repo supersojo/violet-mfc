@@ -20,6 +20,8 @@ void NoteNode::CreateContentStructure() {
     SetBackgroundColor(VColor(255,255,255));
     SetBorderColor(VColor(0,0,0));
     SetTextColor(VColor(255,165,0));
+    
+    m_textChanged = false;
 }
 
 void NoteNode::SetText(std::string& str) {

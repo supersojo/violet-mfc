@@ -23,6 +23,12 @@ namespace violet {
                 m_size.SetX(width);
                 m_size.SetY(height);
             }
+            int GetWidth() {
+                return m_size.GetX();
+            }
+            int GetHeight() {
+                return m_size.GetY();
+            }
             VPoint& GetLocation() {
                 return m_location;
             }

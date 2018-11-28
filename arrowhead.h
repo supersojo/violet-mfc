@@ -99,7 +99,8 @@ namespace violet {
                     VRelativePath& path = GetPath();
                     RotatePath(path,CalculateAngle(q,p));
                     std::cout<<"line "<<p<<"-->"<<q<<std::endl;
-                    context.DrawLine(p,q);
+                    context.SetColor(GetBorderColor());
+                    //context.DrawLine(p,q);no need redraw
                     VPoint oldLocation = context.GetLocation();
                     context.Translate(
                         q.GetX()-oldLocation.GetX(),

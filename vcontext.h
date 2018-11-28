@@ -44,7 +44,9 @@ namespace violet {
             }
             void Translate(double dx,double dy) {
                 SetLocation(m_location+VPoint(dx,dy));
+                //m_graphics->TranslateTransform(dx,dy);
             }
+            void Rotate(VPoint& point,double angle);
             void Attach(Gdiplus::Graphics& graphics) {
                 m_graphics = &graphics;
             }

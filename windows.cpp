@@ -2,9 +2,12 @@
 #include <gdiplus.h>
 #include <iostream>
 #include "vcontext.h"
+#include "vcontenttext.h"
 #include "notenode.h"
 #include "lineedge.h"
 #include "noteedge.h"
+#include "arrowheadedge.h"
+#include "labeledlineedge.h"
 #include "igraph.h"
 #include "vpoint.h"
 #include "vicon.h"
@@ -14,13 +17,11 @@
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdiplus.lib")
 using namespace Gdiplus;
-violet::NoteNode node;
-violet::abstract::IGraph* g;
+
 LRESULT CALLBACK WndProc (HWND, UINT, WPARAM, LPARAM); //声名消息处理函数(处理windows和接收windows消息)
 //hInstance:系统为窗口分配的实例号,2和3忘了.4是显示方式
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,PSTR szCmdLine, int iCmdShow)
 {
-	g = &(node.GetGraph());
 	
     static TCHAR szAppName[] = TEXT ("HelloWin") ; //窗体名
     HWND hwnd;//句柄
@@ -109,17 +110,53 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         return 0 ;
 
     case   WM_PAINT: {
+        violet::NoteNode node;
+        violet::abstract::IGraph* g;
+        g = &(node.GetGraph());
+	
         std::cout<<"---->"<<std::endl;
         violet::VContext context;
         hdc = BeginPaint (hwnd, &ps) ;
         Gdiplus::Graphics graphics(hdc);
         context.Attach(graphics);
         
+        violet::NoteNode node1;
+        violet::NoteNode node2;
+        violet::LabeledLineEdge edge;
+
+        node1.SetText(std::string("node1"));
+        node2.SetText(std::string("node2"));
+        g->AddNode(node1,violet::VPoint(50,50));
+        g->AddNode(node2,violet::VPoint(150,150));
+        violet::VPoint points[] = {
+            {0,0}
+        };
+        edge.SetStartArrowHead(*violet::property::ArrowHeadChoiceList::DIAMOND_WHITE);
+        edge.SetEndArrowHead(*violet::property::ArrowHeadChoiceList::DIAMOND_BLACK);
+        edge.SetStartLabel(std::string("1..n"));
+        edge.SetCenterLabel(std::string("center"));
+        edge.SetEndLabel(std::string("1"));
+        g->Connect(edge,node1,violet::VPoint(1,1),node2,violet::VPoint(1,1),points);
+
+        node1.Draw(context);
+        node2.Draw(context);
+        edge.SetLineStyle(violet::LineStyle::DOTTED);
+        edge.SetBorderColor(violet::VColor(255,0,0));
+        edge.Draw(context);
+
         //node1.SetParent(node);
     #if 1
-        g->Draw(context);
+        //g->Draw(context);
     #endif
-    
+        violet::VLineText* linetext = new violet::VLineText;
+        violet::VContentText content(*linetext);
+        linetext->SetText(std::string("label"));
+        content.Draw(context,violet::VPoint(200,200));
+        context.Rotate(violet::VPoint(200,200),-30);// change
+        content.Draw(context,violet::VPoint(200,200));
+        context.Rotate(violet::VPoint(200,200),30);// revert
+        content.Draw(context,violet::VPoint(10,10));
+        
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
         //graphics.DrawLine(&red, 10, 10, 100, 100);
         //TextOut(hdc,0,0,"Hello",strlen("Hello"));
@@ -127,6 +164,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         return 0 ;
     }
 	case WM_LBUTTONDOWN: {
+        #if 0
         GetClientRect(hwnd, &rect);
 		violet::NoteNode* node = new violet::NoteNode;
 		sprintf(b,"node %d",i); 
@@ -136,6 +174,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		int yPos = HIWORD(lParam);  // vertical position of cursor 
 		g->AddNode(*node,violet::VPoint(xPos,yPos));
 		InvalidateRect(hwnd, &rect, true);
+        #endif
 		return 0;
 	}
     case   WM_DESTROY:

@@ -6,7 +6,7 @@
 namespace violet {
     class VContentText : public VContent {
         public:
-            VContentText(VLineText& lineText) {
+            VContentText(VLineText& lineText) : VContent(){
                 m_lineText = &lineText;
                 m_lineText->SetContent(*this);
                 m_lineWidth = DEFAULT_LINE_WIDTH;
@@ -34,6 +34,9 @@ namespace violet {
                 context.SetLineWidth(lineWidth);
                 
 
+            }
+            virtual void Draw(VContext& context,VPoint& offset) {
+                VContent::Draw(context,offset);
             }
             virtual void RefreshUp() {
                 SetOptimalSize();
