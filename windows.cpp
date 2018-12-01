@@ -131,7 +131,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         g->AddNode(node1,violet::VPoint(50,50));
         g->AddNode(node2,violet::VPoint(150,150));
         violet::VPoint points[] = {
-            {0,0}
+			violet::VPoint(),violet::VPoint()
         };
         edge.SetStartArrowHead(*violet::property::ArrowHeadChoiceList::DIAMOND_WHITE);
         edge.SetEndArrowHead(*violet::property::ArrowHeadChoiceList::DIAMOND_BLACK);
