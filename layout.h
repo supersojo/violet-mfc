@@ -10,7 +10,7 @@ namespace violet {
 			Layout(){
 				m_separator = Separator::EMPTY;
 			}
-			virtual~Layout(){
+			virtual ~Layout(){
 				std::vector<VContent*>::iterator i;
 				for (i=m_contents.begin();i!=m_contents.end();i++) {
 					delete (*i);
@@ -38,8 +38,9 @@ namespace violet {
 				if (&content==nullptr)
 					return;
 				content.RemoveParent(*this);
-				for (int i=0;i<m_contents.size();i++) {
-					if (m_contens[i]==&content) {
+				std::vector<VContent*>::iterator i;
+				for (i=m_contents.begin();i!=m_contents.end();i++) {
+					if ((*i)==&content) {
 						m_contents.erase(i);
 						break;
 					}
@@ -59,23 +60,27 @@ namespace violet {
 			}
 			virtual void RefreshDown() {
 				for (int i=0;i<m_contents.size();i++) 
-					m_contens[i]->RefreshDown();
+					m_contents[i]->RefreshDown();
 				VContent::RefreshDown();
 			}
 			virtual void Draw(VContext& context) {
-				std::<VContent*>::iterator i;
+				std::vector<VContent*>::iterator i;
 				VPoint offset(0,0);
 				VContent* content;
 				i = m_contents.begin();
 				if (i!=m_contents.end()) {
 					content = (*i);
+					std::cout<<"draw one "<<std::endl;
 					content->Draw(context,offset);
 					i++;
 				}
 				while (i!=m_contents.end()) {
 					offset = GetNextOffset(offset,*content);
+					std::cout<<content->GetWidth()<<":"<<content->GetHeight()<<std::endl;
 					content = (*i);
+					std::cout<<"draw two "<<std::endl;
 					content->Draw(context,offset);
+					/* separator need asolute position*/
 					m_separator->Draw(context,GetStartPointSeparator(offset),
 						GetEndPointSeparator(offset));
 					i++;

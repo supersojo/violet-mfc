@@ -1,10 +1,11 @@
 #ifndef HORIZONTALLAYOUT_H
 #define HORIZONTALLAYOUT_H
+#include "layout.h"
 
-namespace voilet {
-
-	class HorizontalLayout : public Layout {
+namespace violet {
+	class HorizontalLayout:public Layout {
 		public:
+			HorizontalLayout(){}
 			virtual VPoint GetNextOffset(VPoint& beforeOffset,VContent& content) {
 				return VPoint(beforeOffset.GetX()+content.GetWidth(),beforeOffset.GetY());
 			}
@@ -15,14 +16,14 @@ namespace voilet {
 				return VPoint(offset.GetX(),GetHeight());
 			}
 			virtual void RefreshUp() {
-				VRect minimalBounds = GetMininalBounds();
+				VRect minimalBounds = GetMinimalBounds();
 				SetHeight(minimalBounds.GetHeight());
 				SetWidth(minimalBounds.GetWidth());
 				
 				SetContentsHeight(minimalBounds.GetHeight());
 				Layout::RefreshUp();
 			}
-			virtual VRect GetMininalBounds() {
+			virtual VRect GetMinimalBounds() {
 				VRect selfMinimalBounds = Layout::GetMinimalBounds();
 				double width = 0;
 				double height = 0;
@@ -47,7 +48,6 @@ namespace voilet {
 					contents[i]->RefreshDown();
 				}
 			}
-			
 	};
 }
 

@@ -15,6 +15,9 @@
 #include "vicon.h"
 #include "bentstyle.h"
 #include "arrowheadchoicelist.h"
+#include "horizontallayout.h"
+#include "verticallayout.h"
+#include "separator.h"
 #pragma comment(lib,"ole32.lib")
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdiplus.lib")
@@ -146,10 +149,38 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         edge.SetBorderColor(violet::VColor(255,0,0));
         edge.Draw(context);
 
+		violet::VerticalLayout *layout = new violet::VerticalLayout;
+		violet::HorizontalLayout layout1;
+		{
+			violet::VLineText* linetext1 = new violet::VLineText;
+			violet::VLineText* linetext2 = new violet::VLineText;
+			violet::VLineText* linetext4 = new violet::VLineText;
+			violet::VLineText* linetext3 = new violet::VLineText;
+			violet::VContentText* content1 = new violet::VContentText(*linetext1);
+			violet::VContentText* content2 = new violet::VContentText(*linetext2);
+			violet::VContentText* content4 = new violet::VContentText(*linetext4);
+			violet::VContentText* content3 = new violet::VContentText(*linetext3);
+			linetext1->SetText(std::string("text1"));linetext1->UpdateBounds(context);
+			linetext2->SetText(std::string("text2"));linetext2->UpdateBounds(context);
+			linetext4->SetText(std::string("text4"));linetext4->UpdateBounds(context);
+			linetext3->SetText(std::string("text3"));linetext3->UpdateBounds(context);
+			(*layout).Add(*content1);
+			(*layout).Add(*content2);
+			(*layout).Add(*content4);
+			(*layout).SetSeparator(*violet::Separator::LINE);
+			layout1.SetSeparator(*violet::Separator::LINE);
+			layout1.Add(*content3);
+			layout1.Add(*layout);
+			context.SetLocation(violet::VPoint(200,300));
+			layout1.Draw(context);
+			context.SetLocation(violet::VPoint(0,0));
+			
+		}
         //node1.SetParent(node);
     #if 1
         //g->Draw(context);
     #endif
+	#if 0
         violet::VLineText* linetext = new violet::VLineText;
         violet::VContentText content(*linetext);
         linetext->SetText(std::string("label"));
@@ -158,7 +189,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         content.Draw(context,violet::VPoint(200,200));
         context.Rotate(violet::VPoint(200,200),30);// revert
         content.Draw(context,violet::VPoint(10,10));
-        
+      #endif
         //Gdiplus::Pen red(Gdiplus::Color(255, 255, 0, 0), 1);
         //graphics.DrawLine(&red, 10, 10, 100, 100);
         //TextOut(hdc,0,0,"Hello",strlen("Hello"));

@@ -1,12 +1,12 @@
 #ifndef SEPARATOR_H
 #define SEPARATOR_H
-#include "vontext.h"
+#include "vcontext.h"
 #include "vpoint.h"
 
 namespace violet {
 	class Separator {
 		public:
-			virtual void Draw(VContext& context, VPoint& start,Vpoint& end) {
+			virtual void Draw(VContext& context, VPoint& start,VPoint& end) {
 			}
 			virtual void SetColor(VColor& color) {
 			}

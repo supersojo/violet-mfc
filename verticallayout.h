@@ -14,15 +14,16 @@ namespace violet {
 				return VPoint(GetWidth(),offset.GetY());
 			} 
 			virtual void RefreshUp() {
-				VRect minimalBounds = GetMininalBounds();
+				VRect minimalBounds = GetMinimalBounds();
 				SetHeight(minimalBounds.GetHeight());
 				SetWidth(minimalBounds.GetWidth());
 				
 				SetContentsWidth(minimalBounds.GetWidth());
 				Layout::RefreshUp();
 			}
-			virtual VRect GetMininalBounds() {
+			virtual VRect GetMinimalBounds() {
 				VRect selfMinimalBounds = Layout::GetMinimalBounds();
+				std::cout<<"self bounds:"<<selfMinimalBounds<<std::endl;
 				double width = 0;
 				double height = 0;
 				std::vector<VContent*>& contents = GetContents();
@@ -37,7 +38,15 @@ namespace violet {
 					height = selfMinimalBounds.GetHeight();
 				if (width<selfMinimalBounds.GetWidth())
 					width = selfMinimalBounds.GetWidth();
+				std::cout<<"new bounds:"<<VRect(GetX(),GetY(),width,height)<<std::endl;
 				return VRect(GetX(),GetY(),width,height);			
+			}
+			virtual void SetContentsWidth(double width) {
+				std::vector<VContent*>& contents = GetContents();
+				for (int i=0;i<contents.size();i++) {
+					contents[i]->SetWidth(width);
+					contents[i]->RefreshDown();
+				}
 			}
 		private:
 		

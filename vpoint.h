@@ -50,6 +50,9 @@ namespace violet {
             VPoint operator+(const VPoint& point) {
                 return VPoint(m_x+point.m_x,m_y+point.m_y);
             }
+			VPoint operator-(const VPoint& point) {
+                return VPoint(m_x-point.m_x,m_y-point.m_y);
+            }
             friend std::ostream& operator<<(std::ostream& out,const VPoint& point) {
                 out<<"("<<point.m_x<<","<<point.m_y<<")";
                 return out;
