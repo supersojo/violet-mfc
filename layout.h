@@ -70,7 +70,6 @@ namespace violet {
 				i = m_contents.begin();
 				if (i!=m_contents.end()) {
 					content = (*i);
-					std::cout<<"draw one "<<std::endl;
 					content->Draw(context,offset);
 					i++;
 				}
@@ -78,7 +77,6 @@ namespace violet {
 					offset = GetNextOffset(offset,*content);
 					std::cout<<content->GetWidth()<<":"<<content->GetHeight()<<std::endl;
 					content = (*i);
-					std::cout<<"draw two "<<std::endl;
 					content->Draw(context,offset);
 					/* separator need asolute position*/
 					m_separator->Draw(context,GetStartPointSeparator(offset),

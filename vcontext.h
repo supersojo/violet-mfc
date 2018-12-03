@@ -52,7 +52,9 @@ namespace violet {
             }
             void DrawLine(VPoint& start,VPoint& end);
             void DrawString(std::string& str);
+            void DrawString(std::string& str,VRect& layoutRect);
             VRect MeasureString(std::string& str);
+            VRect MeasureString(std::string& str,VRect& layoutRect);
             void FillRectangle(VPoint& location,VPoint& size,VColor& color);
             void FillPolygon(VPoint& location,VPoint* points,int count);
             ~VContext();

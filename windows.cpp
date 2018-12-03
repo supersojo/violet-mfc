@@ -18,6 +18,7 @@
 #include "horizontallayout.h"
 #include "verticallayout.h"
 #include "separator.h"
+#include "multilinetext.h"
 #pragma comment(lib,"ole32.lib")
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdiplus.lib")
@@ -176,6 +177,17 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			context.SetLocation(violet::VPoint(0,0));
 			
 		}
+        {
+            violet::MultiLineText mt;
+            mt.AppendLineText(std::string("hello"));
+            mt.AppendLineText(std::string("world"));
+            mt.Draw(context);
+            mt.SetLineText(1,std::string("hello world djsfjsd jfslfj sjlfja ls dsfjsdf sdf sdj fksdj fsadk lfasj"));
+            context.Translate(30,30);
+            mt.Draw(context);
+            context.Translate(-30,-30);
+        }
+        
         //node1.SetParent(node);
     #if 1
         //g->Draw(context);

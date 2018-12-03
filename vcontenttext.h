@@ -24,13 +24,18 @@ namespace violet {
                  10 pixels around text
                 */
                 int lineWidth = context.GetLineWidth();
-                
+                VRect textBounds = m_lineText->GetBounds();
+                double dx,dy;
                 context.SetLineWidth(m_lineWidth);
-                context.Translate(10,10);
-                
+                dx = (GetWidth()-textBounds.GetWidth())/2;
+                dy = (GetHeight()-textBounds.GetHeight())/2;
+                //context.Translate(10,10);
+                context.Translate(dx+10,dy+10);
+                 
                 m_lineText->Draw(context);
                 
-                context.Translate(-10,-10);
+                //context.Translate(-10,-10);
+                context.Translate(-dx-10,-dy-10);
                 context.SetLineWidth(lineWidth);
                 
 

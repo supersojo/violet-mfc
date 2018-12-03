@@ -8,6 +8,10 @@ namespace violet {
     imagenode does't use content layer
     so must rewrite draw 
     it adds VShape for additional usage
+    +---+
+    +---+ image
+    |txt|
+    +---+
     */
     class ImageNode : public AbstractNode {
         public:
