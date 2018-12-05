@@ -1,4 +1,4 @@
-#include <windows.h>
+#include "config.h"
 #include <gdiplus.h>
 #include <iostream>
 #include "vcontext.h"
@@ -19,6 +19,7 @@
 #include "verticallayout.h"
 #include "separator.h"
 #include "multilinetext.h"
+#include "localfile.h"
 #pragma comment(lib,"ole32.lib")
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdiplus.lib")

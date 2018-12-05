@@ -1,7 +1,6 @@
 #ifndef VLINETEXT_H
 #define VLINETEXT_H
 #include <iostream>
-#include "gdiplus.h"
 #include "vrect.h"
 #include "vcolor.h"
 #include "vcontent.h"

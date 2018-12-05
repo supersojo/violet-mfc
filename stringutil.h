@@ -1,6 +1,6 @@
 #ifndef STRINGUTIL_H
 #define STRINGUTIL_H
-#include <windows.h>
+#include "config.h"
 #include <string>
 namespace violet {
     class StringUtil {

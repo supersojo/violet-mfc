@@ -1,5 +1,4 @@
-#include <windows.h>
-#include <gdiplus.h>
+#include "config.h"
 #include "vcontext.h"
 #include "vshape.h"
 #include "vcolor.h"

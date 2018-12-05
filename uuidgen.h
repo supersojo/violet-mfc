@@ -1,6 +1,9 @@
+#ifndef UUIDGEN_H
+#define UUIDGEN_H
+
 #include <string>
 
-#include <objbase.h>
+#include "config.h"
 
 // violet::UUIDGen
 
@@ -25,3 +28,4 @@ namespace violet {
             }
     };
 }
+#endif
