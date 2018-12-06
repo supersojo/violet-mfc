@@ -1,0 +1,27 @@
+#
+# nmake Makefile
+#
+EXE = main.exe
+OBJS = windows.obj direction.obj abstractnode.obj abstractedge.obj \
+       abstractgraph.obj notenode.obj vcontext.obj stringutil.obj \
+       vcolor.obj linestyle.obj bentstyle.obj lineedge.obj linestylechoicelist.obj \
+       bentstylechoicelist.obj arrowhead.obj arrowheadchoicelist.obj labeledlineedge.obj \
+	   separator.obj
+LIBPATH = "C:\Program Files\Microsoft SDKs\Windows\v7.1\Lib"
+LIBS = nafxcw.lib $(LIBPATH)\user32.lib $(LIBPATH)\gdi32.lib $(LIBPATH)\kernel32.lib
+LFLAGS = /subsystem:windows
+CFLAGS = /c /EHsc /Zi /I../include
+CC = "C:\Program Files\Microsoft Visual Studio 8\VC\bin"\cl.exe
+LINK = "C:\Program Files\Microsoft Visual Studio 8\VC\bin"\link.exe
+# explicit
+$(EXE) : $(OBJS)
+    $(LINK) $(LFLAGS) $(LIBS) $(OBJS)  /OUT:$(EXE)
+    
+# implicit
+.cpp.obj:
+    $(CC) $(CFLAGS) $<
+    
+# clean
+clean:
+    del *.obj
+    del $(EXE)
