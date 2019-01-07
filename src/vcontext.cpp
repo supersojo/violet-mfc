@@ -39,8 +39,8 @@ void VContext::DrawLine(VPoint& start,VPoint& end) {
     */
     
     REAL dashVals[2] = {
-	5.0f,   //线长5个像素
-	2.0f   //间隔2个像素
+	5.0f,   //线长5个像素 
+	2.0f   //间隔2个像素 
     };
     
     Pen pen(Color(GetColor().GetR(), GetColor().GetG(), GetColor().GetB()), 1);

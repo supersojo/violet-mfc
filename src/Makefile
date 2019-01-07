@@ -10,7 +10,7 @@ OBJS = windows.obj direction.obj abstractnode.obj abstractedge.obj \
 
 LIBS = user32.lib gdi32.lib 
 LFLAGS = /subsystem:windows
-CFLAGS = /c /EHsc /Zi
+CFLAGS = /c /EHsc /Zi /I./../include
 
 # explicit
 $(EXE) : $(OBJS)

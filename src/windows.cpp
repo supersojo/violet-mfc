@@ -29,33 +29,32 @@
 #pragma comment(lib,"gdiplus.lib")
 using namespace Gdiplus;
 
-LRESULT CALLBACK WndProc (HWND, UINT, WPARAM, LPARAM); //声名消息处理函数(处理windows和接收windows消息)
-//hInstance:系统为窗口分配的实例号,2和3忘了.4是显示方式
-int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,PSTR szCmdLine, int iCmdShow)
+LRESULT CALLBACK WndProc (HWND, UINT, WPARAM, LPARAM); 
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,PSTR szCmdLine, int iCmdShow)
 {
 	
-    static TCHAR szAppName[] = TEXT ("HelloWin") ; //窗体名
-    HWND hwnd;//句柄
-    MSG msg;//消息体
-    WNDCLASS wndclass;//这义一个窗体类实例
-    //设置窗体参数
-    wndclass.style = CS_HREDRAW | CS_VREDRAW ; //样式
+    static TCHAR szAppName[] = TEXT ("HelloWin") ;
+    HWND hwnd;
+    MSG msg;
+    WNDCLASS wndclass;
+
+    wndclass.style = CS_HREDRAW | CS_VREDRAW ;
     wndclass.cbClsExtra   = 0 ;
     wndclass.cbWndExtra   = 0 ;
-    wndclass.hInstance = hInstance ;//窗体实例名，由windows自动分发
-    wndclass.hIcon = LoadIcon (NULL, IDI_APPLICATION) ;//显示上面的图标titlte
-    wndclass.hCursor = LoadCursor (NULL, IDC_ARROW) ;//窗口光标
-    wndclass.hbrBackground= (HBRUSH) GetStockObject (WHITE_BRUSH) ;//背景刷
+    wndclass.hInstance = hInstance ;
+    wndclass.hIcon = LoadIcon (NULL, IDI_APPLICATION) ;
+    wndclass.hCursor = LoadCursor (NULL, IDC_ARROW) ;
+    wndclass.hbrBackground= (HBRUSH) GetStockObject (WHITE_BRUSH) ;
     wndclass.lpszMenuName=NULL;
-    wndclass.lpfnWndProc=WndProc;//设置窗体接收windws消息函数
-    wndclass.lpszClassName= szAppName;//窗体类名
-    if (!RegisterClass (&wndclass))//注册窗体类
+    wndclass.lpfnWndProc=WndProc;
+    wndclass.lpszClassName= szAppName;
+    if (!RegisterClass (&wndclass))
     {
         MessageBox ( NULL, TEXT ("This program requires Windows NT!"), szAppName, MB_ICONERROR) ;
         return 0 ;
-    };
-    //创建一个窗体。已分配内存。返回一个窗体句柄
-    hwnd = CreateWindow( szAppName,      // window class name
+    }
+      hwnd = CreateWindow( szAppName,      // window class name
         TEXT ("The Hello Program"),   // window caption
         WS_OVERLAPPEDWINDOW, // window style
         CW_USEDEFAULT,// initial x position
@@ -66,12 +65,12 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,PSTR szCmdLine,
         NULL, // window menu handle
         hInstance, // program instance handle
         NULL) ;
-    ShowWindow (hwnd,iCmdShow);//显示窗口
-    UpdateWindow (hwnd) ;//更新窗体
+    ShowWindow (hwnd,iCmdShow);
+    UpdateWindow (hwnd) ;
     while(GetMessage(&msg,NULL,0,0))
     {
-        TranslateMessage (&msg);//翻译消息并发送到windows消息队列
-        DispatchMessage (&msg) ;//接收信息
+        TranslateMessage (&msg);
+        DispatchMessage (&msg) ;
     }
     return msg.wParam ;
 }
@@ -83,10 +82,9 @@ static void ListAllFonts(Graphics& graphics) {
     int count=0;
     int found=0;
      
-    WCHAR familyName[100];//这里为了简化程序，分配足够大的空间
+    WCHAR familyName[100];
     WCHAR *familyList=NULL;
-    FontFamily pFontFamily[500];//同样，分配足够大的空间
-     
+    FontFamily pFontFamily[500];     
 
     RectF r(0,0,300,200);
      
@@ -95,18 +93,18 @@ static void ListAllFonts(Graphics& graphics) {
     installedFontCollection.GetFamilies(count,pFontFamily,&found);
      
     familyList=new WCHAR[count*sizeof(familyName)];
-    wcscpy(familyList,L"");//先清空familyList，wcscpy实现对宽字节的复制操作
+    wcscpy(familyList,L"");
     for(int j=0;j<count;j++){
         pFontFamily[j].GetFamilyName(familyName);
-        wcscat(familyList,familyName);//把familyName添加到familyList的最后
-        wcscat(familyList,L",");//wcscat实现对宽字节字符的添加操作
+        wcscat(familyList,familyName);
+        wcscat(familyList,L",");//
     }
     //graphics.DrawString(familyList,-1,&font,r,NULL,&solidbrush);
     graphics.DrawString(L"hello",-1,&font,r,NULL,&solidbrush);
     delete[] familyList;
 }
 
-LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)//消息的处理程序
+LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     HDC         hdc ;
     PAINTSTRUCT ps ;
