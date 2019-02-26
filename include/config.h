@@ -31,4 +31,6 @@ static long round(double v) {
 #include <gdiplus.h>
 #include <objbase.h>
 
+#include <afxwin.h>
+
 #endif

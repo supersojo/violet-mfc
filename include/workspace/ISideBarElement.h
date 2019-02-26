@@ -1,5 +1,8 @@
 #ifndef ISIDEBARELEMENT_H
-#defien ISIDEBARELEMENT_H
+#define ISIDEBARELEMENT_H
+
+#include "iworkspace.h"
+//#include "sidebarpanel.h"
 
 namespace violet {
     class ISideBarElement {
@@ -7,9 +10,9 @@ namespace violet {
         panel represents the visual sidebar element
         */
         public:
-            void Install(IWorkspace& workspace) = 0;
-            SideBarElementPanel& GetSideBarElementPanel() = 0;
-            setSideBarElementPanel(SideBarElementPanel& panel) = 0;
+            void Install(IWorkspace& workspace);
+            //SideBarElementPanel& GetSideBarElementPanel() = 0;
+            //void SetSideBarElementPanel(SideBarElementPanel& panel) = 0;
     };
 }
 
