@@ -9,7 +9,9 @@
 #include "../graph/vpoint.h"
 #include "../graph/vcontext.h"
 #include "../graph/vrelativepath.h"
-
+/*
+ * The ArrowHead is a class used to describe arrowhead.
+ */
 namespace violet {
     namespace abstract {
         class ArrowHead {

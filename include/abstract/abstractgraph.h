@@ -3,6 +3,10 @@
 #include <vector>
 #include "igraph.h"
 #include "../graph/vrect.h"
+
+/*
+ * AbstractGrapg is the base graph class.
+ */
 namespace violet {
     class INode;
     class IEdge;

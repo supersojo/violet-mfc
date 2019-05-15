@@ -2,7 +2,7 @@
 # nmake Makefile
 #
 EXE = main.exe
-OBJS = application.obj workspace.obj workspacepanel.obj sidebar.obj sidebarpanel.obj direction.obj abstractnode.obj abstractedge.obj \
+OBJS = application.obj vcomponent.obj workspace.obj workspacepanel.obj sidebar.obj sidebarpanel.obj direction.obj abstractnode.obj abstractedge.obj \
        abstractgraph.obj notenode.obj vcontext.obj stringutil.obj \
        vcolor.obj linestyle.obj bentstyle.obj lineedge.obj \
        linestylechoicelist.obj bentstylechoicelist.obj arrowhead.obj \

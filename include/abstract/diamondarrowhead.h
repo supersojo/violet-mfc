@@ -3,6 +3,10 @@
 
 #include "arrowhead.h"
 #include "../graph/vrelativepath.h"
+
+/*
+ * DiamondArrowHead is the class implement ArrowHead.
+ */
 namespace violet {
     namespace abstract {
         class DiamondArrowHead : public ArrowHead{

@@ -6,6 +6,7 @@
 #define _USE_MATH_DEFINES 
 #include <math.h>
 #include "../graph/vpoint.h"
+
 /*
  0
  +--------> x
@@ -13,7 +14,10 @@
  |
  V y
 */
-
+/*
+ *
+ * Use a vecor to represent direction
+ */
 namespace violet {
     class VPoint;
     namespace abstract {

@@ -1,6 +1,8 @@
 #ifndef IIDENTIFIABLE_H
 #define IIDENTIFIABLE_H
-
+/*
+ * IIdentifiable interface is used to provide Id related stuff.
+ */
 #include "id.h"
 
 // violet::abstract::IIdentifiable
@@ -13,7 +15,7 @@ namespace violet {
             public:
                 virtual Id& GetId() = 0;
                 virtual void SetId(Id& id) = 0;
-                virtual int GetRevision() = 0;
+                virtual int  GetRevision() = 0;
                 virtual void SetRevision(int rev) = 0;
                 virtual void IncrementRevision() = 0;
         };

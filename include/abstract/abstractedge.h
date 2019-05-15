@@ -3,6 +3,9 @@
 #include <vector>
 #include "iedge.h"
 #include "../graph/vpoint.h"
+/*
+ * All proto classes.
+ */
 namespace violet {
     class VPoint;
     namespace abstract {
@@ -11,7 +14,10 @@ namespace violet {
         class Id;
     }
 }
-
+/*
+ * AbstractEdge implement the base edge class
+ *
+ */
 namespace violet{
     namespace abstract {
         

@@ -9,6 +9,7 @@ namespace violet {
     class Workspace : public IWorkspace{
         public:
             Workspace();
+            Workspace(CWnd* parent);
             /* interface from IWorkspace */
             virtual IGraphFile& GetGraphFile();
             virtual IEditorPart& GetEditorPart();
@@ -31,6 +32,7 @@ namespace violet {
             std::string m_filePath;
             std::vector<IWorkspaceListener*> m_listeners;
             abstract::Id m_id;
+            CWnd* m_parent;
     };
 }
 

@@ -4,6 +4,7 @@
 #define _WIN32_WINNT 0x0502
 
 #include <afxwin.h>
+#include "workspace/workspacepanel.h"
 
 namespace violet {
 
@@ -36,6 +37,10 @@ END_MESSAGE_MAP()
 
 violet::UMLMainFrame::UMLMainFrame() {
     Create(NULL,TEXT("UML"));
+    Workspace ws;
+    
+    WorkspacePanel* wsp = new WorkspacePanel(ws,this,VRect(0,0,450,350));
+    //VComponent* w = new VComponent(*this);
 }
 
 #endif

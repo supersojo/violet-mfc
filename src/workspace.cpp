@@ -3,13 +3,20 @@
 namespace violet {
     
 Workspace::Workspace() {
+    m_parent = nullptr;
     m_workspacePanel = nullptr;
     m_graphFile = nullptr;
     m_editorPart = nullptr;
     m_sideBar = nullptr;
 }
 
+Workspace::Workspace(CWnd* parent):Workspace() {
+    m_parent = parent;
+}
+
 IGraphFile& Workspace::GetGraphFile() {
+    if (m_graphFile==nullptr)
+        return *reinterpret_cast<IGraphFile*>(nullptr);
     return *m_graphFile;
 }
 
@@ -53,7 +60,7 @@ abstract::Id& Workspace::GetId() {
 
 WorkspacePanel& Workspace::GetWorkspacePanel() {
     if (m_workspacePanel==nullptr)
-        m_workspacePanel = new WorkspacePanel(*this);
+        m_workspacePanel = new WorkspacePanel(*this,m_parent);
     
     return *m_workspacePanel;
 }

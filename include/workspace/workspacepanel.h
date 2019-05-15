@@ -3,6 +3,7 @@
 
 #include "ui/vcomponent.h"
 #include "workspace.h"
+#include "graph/vrect.h"
 
 namespace violet {
     /*
@@ -17,18 +18,23 @@ namespace violet {
     class Workspace;
     class IWorkspace;
     
-    class WorkspacePanel : public CFrameWnd {
+    class WorkspacePanel : public VComponent {
         public:
             WorkspacePanel();
-            WorkspacePanel(Workspace& workspace);
+            WorkspacePanel(Workspace& workspace,CWnd* parent);
+            WorkspacePanel(Workspace& workspace,CWnd* parent,VRect& rect);
             void PrepareLayout();
             VComponent& GetEditorPart();
             VComponent& GetSiderBar();
+            afx_msg void OnPaint();
         private:
             VComponent* m_editorPart;
             VComponent* m_sideBar;
             
             IWorkspace* m_workspace;
+            
+            
+            DECLARE_MESSAGE_MAP()
     };
 }
 

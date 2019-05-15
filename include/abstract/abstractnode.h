@@ -9,6 +9,10 @@
 #include "../content/vcontent.h"
 #include "../content/vcontentbackground.h"
 #include "../content/vcontentborder.h"
+
+/*
+ * All proto classes.
+ */
 namespace violet {
     class VPoint;
     class VContent;
@@ -19,6 +23,7 @@ namespace violet {
     }
 }
 /*
+ AbstractNode class is the base node implemented the INode and IColorableNode.
 for a node:
 AbstractNode::m_content----+
                            |

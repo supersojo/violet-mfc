@@ -2,11 +2,13 @@
 #define IGRAPHFILE_H
 
 namespace violet {
-    class IGraph;
+    namespace abstract {
+        class IGraph;
+    }
     class IGraphFileListener;
     class IGraphFile : public VFile {
         public:
-            virtual IGraph& GetGraph() = 0;
+            virtual abstract::IGraph& GetGraph() = 0;
             virtual void SetSaveRequired() = 0;
             virtual bool IsSaveRequired() = 0;
             virtual void Save() = 0;

@@ -1,9 +1,11 @@
 #ifndef VIOLET_H
 #define VIOLET_H
-
+/*
+ * This file should be included for all extension. 
+ */
 #include "config.h"
 
-// edge
+// edge related
 #include "edge/lineedge.h"
 #include "edge/arrowheadedge.h"
 #include "edge/labeledlineedge.h"
@@ -11,12 +13,12 @@
 #include "edge/linestyle.h"
 #include "edge/bentstyle.h"
 
-// node
+// node related
 #include "node/notenode.h"
 #include "node/pointnode.h"
 //#include "node/imagenode.h"
 
-// graph
+// graph related
 #include "graph/vpoint.h"
 #include "graph/vrect.h"
 #include "graph/vcolor.h"
@@ -33,7 +35,7 @@
 #include "graph/vcontext.h"
 
 
-// content and layout
+// content and layout related
 #include "content/vcontentborder.h"
 #include "content/vcontentbackground.h"
 #include "content/vcontentempty.h"
@@ -41,13 +43,13 @@
 #include "content/vcontentpadding.h"
 #include "content/vcontentinrectangle.h"
 #include "content/vcontentindiamond.h"
-// layout
+// layout related 
 #include "content/horizontallayout.h"
 #include "content/verticallayout.h"
 #include "content/separator.h"
 #include "content/lineseparator.h"
 
-// text
+// text related
 #include "text/vlinetext.h"
 #include "text/singlelinetext.h"
 #include "text/multilinetext.h"
